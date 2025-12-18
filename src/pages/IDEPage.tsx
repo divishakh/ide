@@ -3,7 +3,11 @@ import { FileTree } from '@/components/editor/FileTree';
 import { CodeEditor } from '@/components/editor/CodeEditor';
 import { OutputPanel } from '@/components/editor/OutputPanel';
 import { Toolbar } from '@/components/editor/Toolbar';
-import { projectsApi, filesApi } from '@/services/database';
+import { LanguageSelector } from '@/components/editor/LanguageSelector';
+import { VersionHistory } from '@/components/editor/VersionHistory';
+import { ShareDialog } from '@/components/editor/ShareDialog';
+import { projectsApi, filesApi, versionsApi } from '@/services/database';
+import { executeCode, getMonacoLanguage } from '@/services/codeExecution';
 import type { Project, CodeFile, ConsoleOutput } from '@/types';
 import { useToast } from '@/hooks/use-toast';
 import { useDebounce } from '@/hooks/use-debounce';
@@ -27,6 +31,7 @@ export default function IDEPage() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [selectedFile, setSelectedFile] = useState<CodeFile | null>(null);
   const [code, setCode] = useState('');
+  const [language, setLanguage] = useState('javascript');
   const [outputs, setOutputs] = useState<ConsoleOutput[]>([]);
   const [isRunning, setIsRunning] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -41,6 +46,7 @@ export default function IDEPage() {
   const { toast } = useToast();
   const debouncedCode = useDebounce(code, 1000);
   const hasLoadedRef = useRef(false);
+  const lastSavedContentRef = useRef('');
 
   // Load projects and files
   useEffect(() => {
@@ -84,15 +90,26 @@ export default function IDEPage() {
 
     const autoSave = async () => {
       try {
-        await filesApi.autoSave(selectedFile.id, debouncedCode);
-        setSelectedFile({ ...selectedFile, content: debouncedCode });
+        // Update file content and language
+        await filesApi.update(selectedFile.id, { 
+          content: debouncedCode,
+          language 
+        });
+        
+        // Create version checkpoint if content changed significantly
+        if (lastSavedContentRef.current !== debouncedCode) {
+          await versionsApi.create(selectedFile.id, debouncedCode, 'Auto-saved version');
+          lastSavedContentRef.current = debouncedCode;
+        }
+        
+        setSelectedFile({ ...selectedFile, content: debouncedCode, language });
       } catch (error) {
         console.error('Auto-save failed:', error);
       }
     };
 
     autoSave();
-  }, [debouncedCode, selectedFile]);
+  }, [debouncedCode, selectedFile, language]);
 
   const handleSelectProject = async (project: Project) => {
     setSelectedProject(project);
@@ -112,6 +129,8 @@ export default function IDEPage() {
   const handleSelectFile = (file: CodeFile) => {
     setSelectedFile(file);
     setCode(file.content);
+    setLanguage(file.language || 'javascript');
+    lastSavedContentRef.current = file.content;
   };
 
   const handleCreateProject = () => {
@@ -145,15 +164,33 @@ export default function IDEPage() {
           description: 'Project created successfully',
         });
       } else if (createDialog.projectId) {
+        // Determine file extension and language
+        const fileName = newItemName.includes('.') ? newItemName : `${newItemName}.js`;
+        const ext = fileName.split('.').pop() || 'js';
+        const langMap: Record<string, string> = {
+          js: 'javascript',
+          py: 'python',
+          cpp: 'cpp',
+          c: 'c',
+          java: 'java',
+          ts: 'typescript',
+          go: 'go',
+          rs: 'rust',
+          rb: 'ruby',
+          php: 'php',
+        };
+        const fileLang = langMap[ext] || 'javascript';
+        
         const newFile = await filesApi.create(
           createDialog.projectId,
-          newItemName.endsWith('.js') ? newItemName : `${newItemName}.js`,
+          fileName,
           '// Write your code here\n',
-          'javascript'
+          fileLang
         );
         setFiles([...files, newFile]);
         setSelectedFile(newFile);
         setCode(newFile.content);
+        setLanguage(fileLang);
         toast({
           title: 'Success',
           description: 'File created successfully',
@@ -216,7 +253,7 @@ export default function IDEPage() {
     }
   };
 
-  const handleRunCode = useCallback(() => {
+  const handleRunCode = useCallback(async () => {
     if (!code.trim()) {
       toast({
         title: 'Warning',
@@ -229,74 +266,89 @@ export default function IDEPage() {
     setIsRunning(true);
     setOutputs([]);
 
-    const newOutputs: ConsoleOutput[] = [];
-
-    // Override console methods
-    const originalConsole = {
-      log: console.log,
-      error: console.error,
-      warn: console.warn,
-      info: console.info,
-    };
-
-    const addOutput = (type: ConsoleOutput['type'], ...args: any[]) => {
-      const message = args
-        .map((arg) => {
-          if (typeof arg === 'object') {
-            try {
-              return JSON.stringify(arg, null, 2);
-            } catch {
-              return String(arg);
-            }
-          }
-          return String(arg);
-        })
-        .join(' ');
-
-      newOutputs.push({
-        type,
-        message,
-        timestamp: Date.now(),
-      });
-    };
-
-    console.log = (...args) => {
-      originalConsole.log(...args);
-      addOutput('log', ...args);
-    };
-    console.error = (...args) => {
-      originalConsole.error(...args);
-      addOutput('error', ...args);
-    };
-    console.warn = (...args) => {
-      originalConsole.warn(...args);
-      addOutput('warn', ...args);
-    };
-    console.info = (...args) => {
-      originalConsole.info(...args);
-      addOutput('info', ...args);
-    };
-
     try {
-      // Execute the code
-      // eslint-disable-next-line no-eval
-      eval(code);
-    } catch (error) {
-      addOutput('error', error instanceof Error ? error.message : String(error));
-    } finally {
-      // Restore console methods
-      console.log = originalConsole.log;
-      console.error = originalConsole.error;
-      console.warn = originalConsole.warn;
-      console.info = originalConsole.info;
-
+      const result = await executeCode(code, language);
+      
+      const newOutputs: ConsoleOutput[] = [];
+      
+      if (result.stdout) {
+        newOutputs.push({
+          type: 'log',
+          message: result.stdout,
+          timestamp: Date.now(),
+        });
+      }
+      
+      if (result.stderr) {
+        newOutputs.push({
+          type: 'error',
+          message: result.stderr,
+          timestamp: Date.now(),
+        });
+      }
+      
+      if (result.executionTime) {
+        newOutputs.push({
+          type: 'info',
+          message: `Execution time: ${result.executionTime}ms`,
+          timestamp: Date.now(),
+        });
+      }
+      
       setOutputs(newOutputs);
+      
+      if (result.exitCode === 0 && newOutputs.length > 0) {
+        toast({
+          title: 'Success',
+          description: 'Code executed successfully',
+        });
+      } else if (result.exitCode !== 0) {
+        toast({
+          title: 'Execution Error',
+          description: 'Code execution failed',
+          variant: 'destructive',
+        });
+      }
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      setOutputs([
+        {
+          type: 'error',
+          message: errorMessage,
+          timestamp: Date.now(),
+        },
+      ]);
+      toast({
+        title: 'Error',
+        description: 'Failed to execute code',
+        variant: 'destructive',
+      });
+    } finally {
       setIsRunning(false);
     }
-  }, [code, toast]);
+  }, [code, language, toast]);
 
   const handleClearOutput = () => {
     setOutputs([]);
+  };
+
+  const handleLanguageChange = async (newLanguage: string) => {
+    setLanguage(newLanguage);
+    if (selectedFile) {
+      try {
+        await filesApi.update(selectedFile.id, { language: newLanguage });
+        setSelectedFile({ ...selectedFile, language: newLanguage });
+      } catch (error) {
+        console.error('Failed to update language:', error);
+      }
+    }
+  };
+
+  const handleRestoreVersion = (content: string) => {
+    setCode(content);
+    if (selectedFile) {
+      lastSavedContentRef.current = content;
+    }
   };
 
   const handleSave = async () => {
@@ -352,15 +404,39 @@ export default function IDEPage() {
 
   return (
     <div className="flex h-screen flex-col">
-      <Toolbar
-        onRun={handleRunCode}
-        onClear={handleClearOutput}
-        onSave={handleSave}
-        onFormat={handleFormat}
-        isRunning={isRunning}
-        isSaving={isSaving}
-        currentFileName={selectedFile?.name}
-      />
+      <div className="flex items-center justify-between border-b bg-card px-4 py-2">
+        <Toolbar
+          onRun={handleRunCode}
+          onClear={handleClearOutput}
+          onSave={handleSave}
+          onFormat={handleFormat}
+          isRunning={isRunning}
+          isSaving={isSaving}
+          currentFileName={selectedFile?.name}
+        />
+        
+        <div className="flex items-center gap-2">
+          {selectedFile && (
+            <>
+              <LanguageSelector
+                value={language}
+                onChange={handleLanguageChange}
+                disabled={!selectedFile}
+              />
+              <VersionHistory
+                fileId={selectedFile.id}
+                onRestore={handleRestoreVersion}
+              />
+              <ShareDialog
+                fileId={selectedFile.id}
+                fileName={selectedFile.name}
+                content={code}
+                language={language}
+              />
+            </>
+          )}
+        </div>
+      </div>
 
       <ResizablePanelGroup direction="horizontal" className="flex-1">
         <ResizablePanel defaultSize={20} minSize={15} maxSize={30}>
@@ -383,7 +459,11 @@ export default function IDEPage() {
         <ResizablePanel defaultSize={50} minSize={30}>
           <div className="h-full bg-background">
             {selectedFile ? (
-              <CodeEditor value={code} onChange={setCode} language={selectedFile.language} />
+              <CodeEditor 
+                value={code} 
+                onChange={setCode} 
+                language={getMonacoLanguage(language)} 
+              />
             ) : (
               <div className="flex h-full items-center justify-center text-muted-foreground">
                 <div className="text-center">

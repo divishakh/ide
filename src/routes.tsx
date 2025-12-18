@@ -1,4 +1,5 @@
 import IDEPage from './pages/IDEPage';
+import { SharePage } from './pages/SharePage';
 import type { ReactNode } from 'react';
 
 interface RouteConfig {
@@ -13,6 +14,12 @@ const routes: RouteConfig[] = [
     name: 'IDE',
     path: '/',
     element: <IDEPage />
+  },
+  {
+    name: 'Share',
+    path: '/share/:shareId',
+    element: <SharePage />,
+    visible: false
   }
 ];
 

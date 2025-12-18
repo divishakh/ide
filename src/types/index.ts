@@ -29,3 +29,40 @@ export interface ConsoleOutput {
   message: string;
   timestamp: number;
 }
+
+export interface FileVersion {
+  id: string;
+  file_id: string;
+  content: string;
+  version_number: number;
+  created_at: string;
+  description: string | null;
+}
+
+export interface SharedSnippet {
+  id: string;
+  share_id: string;
+  file_id: string;
+  title: string;
+  content: string;
+  language: string;
+  created_at: string;
+  expires_at: string | null;
+  view_count: number;
+}
+
+export interface Language {
+  id: string;
+  name: string;
+  version: string;
+  aliases: string[];
+  runtime?: string;
+}
+
+export interface ExecutionResult {
+  stdout: string;
+  stderr: string;
+  output: string;
+  exitCode: number;
+  executionTime?: number;
+}
