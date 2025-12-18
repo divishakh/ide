@@ -31,17 +31,17 @@ A browser-based online code editing and execution environment that provides user
 
 ### 4.3 Auto-Save and Version History
 - Automatically save user work and maintain simple version checkpoints
-\n### 4.4 Theme Switching
-- Provide light mode, dark mode, and other editor themes
+
+### 4.4 Theme Switching\n- Provide light mode, dark mode, and other editor themes
 
 ### 4.5 Shareable Snippet Links
 - Generate unique URLs so users can easily share their code with others
-
-### 4.6 Real-Time Collaboration\n- Allow multiple users to edit the same file simultaneously
+\n### 4.6 Real-Time Collaboration
+- Allow multiple users to edit the same file simultaneously
 - Requires authentication and WebSockets/CRDT libraries (such as Yjs)
+\n### 4.7 Application Deployment
+- Deploy the IDE so it is accessible through a public URL
 
-### 4.7 Application Deployment
-- Deploy the IDE so it is accessible through a public URL\n
 ## 5. Design Style
-- Color Scheme: Deep blue and gold as primary colors, echoing Athena's wisdom and divinity, paired with light gray background to enhance code readability
-- Visual Details: Rounded buttons and card design, soft shadows to enhance depth, linear-style icons for simplicity\n- Overall Layout: Three-column layout with file tree on the left + editor in the center + output area on the right, top toolbar for common operation buttons
+- Frontend design reference: https://www.figma.com/make/DbGBkS3rAILpaGu4FqR3R7/Online-Coding-Environment?t=CFldPgqM63UilNRX-1\n- Follow the layout, color scheme, component styles, and visual specifications defined in the Figma design file
+- Maintain consistency with the design system including spacing, typography, and interactive elements as specified in the Figma prototype
