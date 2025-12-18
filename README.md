@@ -46,13 +46,9 @@ npm -v    # 10.8.2
    npm install
    ```
 
-3. **Set up environment variables**:
-   Create a `.env` file in the root directory with:
-   ```
-   VITE_APP_ID=your_app_id
-   VITE_SUPABASE_URL=your_supabase_url
-   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-   ```
+3. **Environment variables**:
+   The `.env` file is already configured with Supabase credentials.
+   No additional setup needed!
 
 4. **Start the development server**:
    ```bash
