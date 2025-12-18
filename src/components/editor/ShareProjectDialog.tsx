@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Share2, Copy, Check, Eye, Edit3, Link as LinkIcon } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -10,7 +9,6 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { sharesApi } from '@/services/database';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
@@ -138,7 +136,7 @@ export function ShareProjectDialog({
             </p>
             
             {!viewShareUrl ? (
-              <Button
+              <button
                 type="button"
                 onClick={(e) => {
                   console.log('View-Only button clicked!');
@@ -147,12 +145,14 @@ export function ShareProjectDialog({
                   handleGenerateLink('view');
                 }}
                 disabled={loading}
-                className="w-full pointer-events-auto cursor-pointer"
-                variant="outline"
+                className="w-full px-4 py-2 bg-background border border-input rounded-md hover:bg-accent hover:text-accent-foreground disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                style={{ pointerEvents: 'auto' }}
               >
-                <LinkIcon className="mr-2 h-4 w-4" />
-                {loading ? 'Generating...' : 'Generate View-Only Link'}
-              </Button>
+                <span className="flex items-center justify-center gap-2">
+                  <LinkIcon className="h-4 w-4" />
+                  {loading ? 'Generating...' : 'Generate View-Only Link'}
+                </span>
+              </button>
             ) : (
               <div className="space-y-2">
                 <div className="flex gap-2">
@@ -161,37 +161,36 @@ export function ShareProjectDialog({
                     readOnly
                     className="font-mono text-sm"
                   />
-                  <Button
+                  <button
                     type="button"
-                    size="icon"
-                    variant="outline"
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
                       handleCopy(viewShareUrl, 'view');
                     }}
-                    className="pointer-events-auto cursor-pointer"
+                    className="h-9 w-9 inline-flex items-center justify-center border border-input bg-background rounded-md hover:bg-accent hover:text-accent-foreground cursor-pointer transition-colors"
+                    style={{ pointerEvents: 'auto' }}
+                    title="Copy to clipboard"
                   >
                     {copiedView ? (
-                      <Check className="h-4 w-4 text-success" />
+                      <Check className="h-4 w-4 text-green-600" />
                     ) : (
                       <Copy className="h-4 w-4" />
                     )}
-                  </Button>
+                  </button>
                 </div>
-                <Button
+                <button
                   type="button"
-                  size="sm"
-                  variant="ghost"
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
                     handleOpenLink(viewShareUrl);
                   }}
-                  className="w-full pointer-events-auto cursor-pointer"
+                  className="w-full h-8 px-3 text-xs rounded-md hover:bg-accent hover:text-accent-foreground cursor-pointer transition-colors"
+                  style={{ pointerEvents: 'auto' }}
                 >
                   Open in New Tab
-                </Button>
+                </button>
               </div>
             )}
           </div>
@@ -207,7 +206,7 @@ export function ShareProjectDialog({
             </p>
             
             {!editShareUrl ? (
-              <Button
+              <button
                 type="button"
                 onClick={(e) => {
                   console.log('Edit button clicked!');
@@ -216,11 +215,14 @@ export function ShareProjectDialog({
                   handleGenerateLink('edit');
                 }}
                 disabled={loading}
-                className="w-full pointer-events-auto cursor-pointer"
+                className="w-full px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer transition-colors shadow"
+                style={{ pointerEvents: 'auto' }}
               >
-                <LinkIcon className="mr-2 h-4 w-4" />
-                {loading ? 'Generating...' : 'Generate Edit Link'}
-              </Button>
+                <span className="flex items-center justify-center gap-2">
+                  <LinkIcon className="h-4 w-4" />
+                  {loading ? 'Generating...' : 'Generate Edit Link'}
+                </span>
+              </button>
             ) : (
               <div className="space-y-2">
                 <div className="flex gap-2">
@@ -229,36 +231,36 @@ export function ShareProjectDialog({
                     readOnly
                     className="font-mono text-sm"
                   />
-                  <Button
+                  <button
                     type="button"
-                    size="icon"
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
                       handleCopy(editShareUrl, 'edit');
                     }}
-                    className="pointer-events-auto cursor-pointer"
+                    className="h-9 w-9 inline-flex items-center justify-center bg-primary text-primary-foreground rounded-md hover:bg-primary/90 cursor-pointer transition-colors shadow"
+                    style={{ pointerEvents: 'auto' }}
+                    title="Copy to clipboard"
                   >
                     {copiedEdit ? (
                       <Check className="h-4 w-4" />
                     ) : (
                       <Copy className="h-4 w-4" />
                     )}
-                  </Button>
+                  </button>
                 </div>
-                <Button
+                <button
                   type="button"
-                  size="sm"
-                  variant="ghost"
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
                     handleOpenLink(editShareUrl);
                   }}
-                  className="w-full pointer-events-auto cursor-pointer"
+                  className="w-full h-8 px-3 text-xs rounded-md hover:bg-accent hover:text-accent-foreground cursor-pointer transition-colors"
+                  style={{ pointerEvents: 'auto' }}
                 >
                   Open in New Tab
-                </Button>
+                </button>
               </div>
             )}
           </div>
