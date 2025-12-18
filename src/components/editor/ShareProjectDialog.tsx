@@ -112,8 +112,20 @@ export function ShareProjectDialog({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[550px] z-50">
+    <Dialog open={open} onOpenChange={onOpenChange} modal={true}>
+      <DialogContent 
+        className="sm:max-w-[550px]" 
+        style={{ 
+          zIndex: 9999,
+          pointerEvents: 'auto'
+        }}
+        onPointerDownOutside={(e) => {
+          console.log('Clicked outside dialog');
+        }}
+        onInteractOutside={(e) => {
+          console.log('Interact outside dialog');
+        }}
+      >
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Share2 className="h-5 w-5" />
@@ -124,7 +136,14 @@ export function ShareProjectDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-6 py-4 relative z-10">
+        <div 
+          className="space-y-6 py-4" 
+          style={{ 
+            position: 'relative',
+            zIndex: 10,
+            pointerEvents: 'auto'
+          }}
+        >
           {/* View-Only Link */}
           <div className="space-y-3 rounded-lg border p-4 organic-border">
             <div className="flex items-center gap-2">
@@ -139,16 +158,30 @@ export function ShareProjectDialog({
               <button
                 type="button"
                 onClick={(e) => {
-                  console.log('View-Only button clicked!');
+                  console.log('View-Only button CLICKED!');
                   e.preventDefault();
                   e.stopPropagation();
                   handleGenerateLink('view');
                 }}
+                onMouseDown={(e) => {
+                  console.log('View-Only button MOUSE DOWN!');
+                }}
+                onMouseUp={(e) => {
+                  console.log('View-Only button MOUSE UP!');
+                }}
+                onPointerDown={(e) => {
+                  console.log('View-Only button POINTER DOWN!');
+                }}
                 disabled={loading}
-                className="w-full px-4 py-2 bg-background border border-input rounded-md hover:bg-accent hover:text-accent-foreground disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer transition-colors"
-                style={{ pointerEvents: 'auto' }}
+                className="w-full px-4 py-2 bg-card border-2 border-border rounded-md hover:bg-accent hover:text-accent-foreground disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer transition-colors font-medium"
+                style={{ 
+                  pointerEvents: 'auto',
+                  position: 'relative',
+                  zIndex: 100,
+                  touchAction: 'manipulation'
+                }}
               >
-                <span className="flex items-center justify-center gap-2">
+                <span className="flex items-center justify-center gap-2" style={{ pointerEvents: 'none' }}>
                   <LinkIcon className="h-4 w-4" />
                   {loading ? 'Generating...' : 'Generate View-Only Link'}
                 </span>
@@ -209,16 +242,30 @@ export function ShareProjectDialog({
               <button
                 type="button"
                 onClick={(e) => {
-                  console.log('Edit button clicked!');
+                  console.log('Edit button CLICKED!');
                   e.preventDefault();
                   e.stopPropagation();
                   handleGenerateLink('edit');
                 }}
+                onMouseDown={(e) => {
+                  console.log('Edit button MOUSE DOWN!');
+                }}
+                onMouseUp={(e) => {
+                  console.log('Edit button MOUSE UP!');
+                }}
+                onPointerDown={(e) => {
+                  console.log('Edit button POINTER DOWN!');
+                }}
                 disabled={loading}
-                className="w-full px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer transition-colors shadow"
-                style={{ pointerEvents: 'auto' }}
+                className="w-full px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer transition-colors shadow font-medium"
+                style={{ 
+                  pointerEvents: 'auto',
+                  position: 'relative',
+                  zIndex: 100,
+                  touchAction: 'manipulation'
+                }}
               >
-                <span className="flex items-center justify-center gap-2">
+                <span className="flex items-center justify-center gap-2" style={{ pointerEvents: 'none' }}>
                   <LinkIcon className="h-4 w-4" />
                   {loading ? 'Generating...' : 'Generate Edit Link'}
                 </span>

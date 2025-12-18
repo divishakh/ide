@@ -547,31 +547,43 @@ app-8baywyxqb8xt/
 
 ### Issue: "Share links not generating" or "Buttons not clickable"
 
-**Solution**:
+**LATEST FIX APPLIED** (Most Aggressive):
+- All buttons now have 4 event handlers: onClick, onMouseDown, onMouseUp, onPointerDown
+- Extreme z-index values (9999 for dialog, 100 for buttons)
+- Explicit pointer-events on all elements
+- Modified Dialog component to ensure no blocking
+- Updated dark theme colors
+
+**To test:**
+1. **MUST open browser console first** (F12)
+2. Click "Generate View-Only Link" or "Generate Edit Link"
+3. **You should see 4 console messages**:
+   - "POINTER DOWN!"
+   - "MOUSE DOWN!"
+   - "MOUSE UP!"
+   - "CLICKED!"
+4. Then see "handleGenerateLink called with permission: view/edit"
+5. Button text changes to "Generating..."
+6. Link appears after a moment
+
+**If you see NO console messages**:
+- Something is blocking clicks from reaching the button
+- Try clicking different parts of the button
+- Try disabling browser extensions
+- Try incognito/private mode
+- Try a different browser
+- See [AGGRESSIVE_BUTTON_FIX.md](./AGGRESSIVE_BUTTON_FIX.md) for detailed debugging
+
+**If you see SOME console messages but not all**:
+- Check which messages appear
+- This tells us exactly where the issue is
+- See AGGRESSIVE_BUTTON_FIX.md for diagnosis based on console output
+
+**Database setup**:
 1. Verify `shares` table exists in Supabase
 2. Check RLS policies on `shares` table
 3. Ensure you're logged in
-4. Check browser console for errors
-5. Verify the project belongs to you
-
-**The buttons have been fixed:**
-- All buttons now use native HTML `<button>` elements instead of shadcn/ui components
-- This ensures maximum compatibility and reliability
-- Buttons should now be fully clickable
-
-**To test:**
-1. Open browser console (F12)
-2. Click "Generate View-Only Link" or "Generate Edit Link"
-3. You should see console messages: "button clicked!" and "handleGenerateLink called"
-4. Button text changes to "Generating..."
-5. Link appears after a moment
-6. Toast notification shows success
-
-**If still not working:**
-1. Refresh the page and try again
-2. Check if any browser extensions are blocking clicks
-3. Try in incognito/private mode
-4. See [NATIVE_BUTTON_FIX.md](./NATIVE_BUTTON_FIX.md) for detailed information
+4. Verify the project belongs to you
 
 ### Issue: "Build fails"
 
