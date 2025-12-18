@@ -1,321 +1,653 @@
-# Athena's Code Chambers
+# Athena's Code Chambers 🦉
 
-A browser-based online code editing and execution environment inspired by Athena, the goddess of wisdom. This platform provides users with a streamlined environment for writing, testing, and learning code in multiple programming languages.
+A beautiful, browser-based online code editor and execution environment inspired by the wisdom of Athena. Write, test, and share code with an elegant interface featuring deep blue and gold aesthetics.
 
-## ✨ Features
+![Athena's Code Chambers](public/images/hero.jpg)
 
-### Core Features
-- **Monaco Editor Integration**: Professional code editor with syntax highlighting, IntelliSense, and code completion
-- **Multi-Language Support**: Execute code in 10 programming languages (JavaScript, Python, C++, C, Java, TypeScript, Go, Rust, Ruby, PHP)
-- **Real-time Code Execution**: Run code directly in browser (JavaScript) or via Piston API (other languages)
-- **File Management**: Create, save, load, and delete code files with ease
-- **Project Workspaces**: Organize multiple files into projects for better code organization
-- **Console Output**: View logs, errors, warnings, and execution results in a dedicated output panel
+## 🌟 Features
+
+### Core Functionality
+- **Multi-Language Code Editor** - Write code with syntax highlighting powered by Monaco Editor
+- **Code Execution** - Run JavaScript, Python, C++, Java, Go, Rust, and more
+- **File Management** - Create, save, rename, and delete code files
+- **Project Organization** - Group files into projects with descriptions
+- **Version History** - Track changes and restore previous versions
+- **Input/Output Panels** - Separate panels for stdin input and execution output
 
 ### Advanced Features
-- **Version History**: Automatic version control with restore capability - never lose your work
-- **Code Sharing**: Generate unique shareable links with optional expiration (1, 7, 30 days, or never)
-- **Auto-Save**: Automatically saves your work with a 1-second debounce
-- **Theme Switching**: Toggle between light and dark modes for comfortable coding
-- **Resizable Panels**: Customize your workspace layout with resizable panels
-- **Code Formatting**: Format your code with a single click
-- **Persistent Storage**: All projects, files, and versions stored in Supabase database
+- **User Authentication** - Secure sign up and login system
+- **Project Sharing** - Generate shareable links with view-only or edit permissions
+- **Code Formatting** - Automatic code beautification
+- **Language Detection** - Auto-detect language from file extensions
+- **Responsive Design** - Works beautifully on desktop and mobile devices
+- **Dark/Light Mode** - Theme switching with persistent preferences
+- **Real-time Saving** - Auto-save your work as you type
 
-### Language Support 🌐
-- **JavaScript** (v18.15.0) - Browser execution (instant)
-- **Python** (v3.10.0) - Piston API
-- **C++** (v10.2.0) - Piston API
-- **C** (v10.2.0) - Piston API
-- **Java** (v15.0.2) - Piston API
-- **TypeScript** (v5.0.3) - Piston API
-- **Go** (v1.16.2) - Piston API
-- **Rust** (v1.68.2) - Piston API
-- **Ruby** (v3.0.1) - Piston API
-- **PHP** (v8.2.3) - Piston API
+### User Experience
+- **Beautiful UI** - Organic design with smooth transitions and shadows
+- **Project Selector** - Quick dropdown to switch between projects
+- **Keyboard Shortcuts** - Efficient workflow with keyboard support
+- **Download Projects** - Export your entire project as a ZIP file
+- **Search Projects** - Find projects quickly with search functionality
 
-## 🎨 Design
+## 🛠️ Tech Stack
 
-The application features a beautiful color scheme inspired by Athena:
-- **Deep Blue** (HSL 221 83% 53%): Representing wisdom and depth
-- **Gold** (HSL 43 96% 56%): Symbolizing divinity and excellence
-- **Light Gray Background**: Enhancing code readability
-- **Three-Column Layout**: File tree (left) + Editor (center) + Output (right)
+### Frontend
+- **React 18** - Modern UI library with hooks
+- **TypeScript** - Type-safe JavaScript
+- **Vite** - Lightning-fast build tool and dev server
+- **Tailwind CSS** - Utility-first CSS framework
+- **shadcn/ui** - High-quality, accessible UI components
+- **Monaco Editor** - VS Code's editor (for JavaScript)
+- **CodeMirror** - Alternative lightweight editor
+- **Lucide React** - Beautiful icon library
 
-## 🚀 Getting Started
+### Backend & Database
+- **Supabase** - Backend-as-a-Service platform
+  - PostgreSQL database
+  - Row Level Security (RLS) for data protection
+  - Authentication system
+  - Real-time subscriptions (not currently used)
+  - Edge Functions (for future features)
 
-### Prerequisites
+### Code Execution
+- **Piston API** - Secure code execution engine
+  - Supports 40+ programming languages
+  - Sandboxed execution environment
+  - stdin/stdout support
+- **Browser Execution** - JavaScript runs directly in browser for speed
+
+### State Management
+- **React Context API** - Global state management
+- **React Hooks** - useState, useEffect, useCallback, etc.
+- **Custom Hooks** - useDebounce, useToast, useAuth
+
+### Routing
+- **React Router v6** - Client-side routing
+- **Protected Routes** - Authentication-based access control
+
+### Development Tools
+- **ESLint** - Code linting and quality checks
+- **TypeScript Compiler** - Type checking
+- **PostCSS** - CSS processing
+- **Autoprefixer** - CSS vendor prefixes
+
+## 📋 Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- **Node.js** (v18 or higher) - [Download](https://nodejs.org/)
+- **pnpm** (v8 or higher) - Install with: `npm install -g pnpm`
+- **Git** - [Download](https://git-scm.com/)
+- **Supabase Account** - [Sign up](https://supabase.com/) (free tier available)
+
+## 🚀 Installation & Setup
+
+### Step 1: Clone the Repository
 
 ```bash
-# Node.js ≥ 20
-# npm ≥ 10
-# Example:
-node -v   # v20.18.3
-npm -v    # 10.8.2
+# Clone the repository (replace with your actual repo URL)
+git clone <your-repo-url>
+cd app-8baywyxqb8xt
 ```
 
-### Installation
+### Step 2: Install Dependencies
 
-1. **Clone or download the project**
-2. **Install dependencies**:
-   ```bash
-   npm install
+```bash
+# Install all npm packages
+pnpm install
+```
+
+This will install all required dependencies including React, TypeScript, Vite, Tailwind CSS, shadcn/ui components, and more.
+
+### Step 3: Set Up Supabase
+
+#### 3.1 Create a Supabase Project
+
+1. Go to [supabase.com](https://supabase.com/) and sign in
+2. Click "New Project"
+3. Fill in the details:
+   - **Name**: Athena Code Chambers (or your preferred name)
+   - **Database Password**: Create a strong password (save this!)
+   - **Region**: Choose closest to your users
+4. Click "Create new project" and wait for setup to complete
+
+#### 3.2 Get Your Supabase Credentials
+
+1. In your Supabase project dashboard, go to **Settings** → **API**
+2. Copy the following values:
+   - **Project URL** (looks like: `https://xxxxx.supabase.co`)
+   - **anon/public key** (starts with `eyJ...`)
+
+#### 3.3 Run Database Migrations
+
+You have two options to set up the database:
+
+**Option A: Using Supabase SQL Editor (Recommended)**
+
+1. Go to your Supabase project dashboard
+2. Click on **SQL Editor** in the left sidebar
+3. Click **New Query**
+4. Copy and paste the contents of each migration file in order:
+   - First: `supabase/migrations/00001_create_code_files_and_projects.sql`
+   - Second: `supabase/migrations/00002_add_versions_and_sharing.sql`
+   - Third: `supabase/migrations/00003_add_auth_and_sharing.sql`
+5. Click **Run** for each migration
+6. Verify tables were created in **Database** → **Tables**
+
+**Option B: Using Supabase CLI**
+
+```bash
+# Install Supabase CLI
+npm install -g supabase
+
+# Login to Supabase
+supabase login
+
+# Link to your project
+supabase link --project-ref <your-project-ref>
+
+# Push migrations
+supabase db push
+```
+
+#### 3.4 Verify Database Setup
+
+After running migrations, you should see these tables in your Supabase dashboard:
+
+- `profiles` - User profiles
+- `projects` - Code projects
+- `code_files` - Individual code files
+- `file_versions` - Version history
+- `shared_snippets` - Shared code snippets
+- `shares` - Project share links
+
+### Step 4: Configure Environment Variables
+
+Create a `.env` file in the root directory:
+
+```bash
+# Create .env file
+touch .env
+```
+
+Add the following content (replace with your actual Supabase credentials):
+
+```env
+# Supabase Configuration
+VITE_SUPABASE_URL=https://your-project-id.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key-here
+
+# App Configuration
+VITE_APP_ID=athena-code-chambers
+VITE_API_ENV=production
+```
+
+**Important**: 
+- Replace `your-project-id` with your actual Supabase project ID
+- Replace `your-anon-key-here` with your actual anon key from Supabase
+- Never commit the `.env` file to version control (it's already in `.gitignore`)
+
+### Step 5: Configure Authentication
+
+#### 5.1 Disable Email Confirmation (for development)
+
+1. In Supabase dashboard, go to **Authentication** → **Providers**
+2. Click on **Email** provider
+3. Scroll down to **Email Confirmation**
+4. Toggle OFF "Enable email confirmations"
+5. Click **Save**
+
+#### 5.2 Configure Email Templates (optional)
+
+If you want to enable email confirmation later:
+
+1. Go to **Authentication** → **Email Templates**
+2. Customize the confirmation email template
+3. Add your site URL in **Authentication** → **URL Configuration**
+
+### Step 6: Run the Development Server
+
+```bash
+# Start the development server
+pnpm run dev
+```
+
+The application will open at `http://localhost:5173`
+
+You should see:
+- ✅ Vite dev server running
+- ✅ Application accessible in browser
+- ✅ No console errors
+
+### Step 7: Create Your First Account
+
+1. Open `http://localhost:5173` in your browser
+2. Click **"Get Started"** or **"Sign Up"**
+3. Fill in the registration form:
+   - Username (will be used as email: `username@miaoda.com`)
+   - Password (minimum 6 characters)
+4. Click **"Sign Up"**
+5. You'll be automatically logged in
+
+**Note**: The first user to sign up becomes an admin automatically.
+
+## 📖 Usage Guide
+
+### Creating Your First Project
+
+1. After logging in, you'll be redirected to the IDE
+2. Click the **"+"** button in the top-left (Files panel)
+3. Enter a project name and description
+4. Click **"Create"**
+
+### Creating Files
+
+1. Select a project from the dropdown at the top
+2. Click **"New File"** button in the toolbar
+3. Enter filename with extension (e.g., `script.py`, `main.js`)
+4. Click **"Create"**
+5. The file appears in the left sidebar and opens in the editor
+
+### Writing and Running Code
+
+#### JavaScript Example:
+```javascript
+console.log("Hello from Athena's Code Chambers!");
+const sum = (a, b) => a + b;
+console.log("2 + 3 =", sum(2, 3));
+```
+
+Click **"Run Code"** button to execute.
+
+#### Python with Input Example:
+```python
+name = input("Enter your name: ")
+age = input("Enter your age: ")
+print(f"Hello {name}, you are {age} years old!")
+```
+
+**Steps**:
+1. Write the code in the editor
+2. Go to the **Input panel** (bottom-right)
+3. Enter your input (one value per line):
    ```
-
-3. **Environment variables**:
-   The `.env` file is already configured with Supabase credentials.
-   No additional setup needed!
-
-4. **Start the development server**:
-   ```bash
-   npm run dev -- --host 127.0.0.1
+   Alice
+   25
    ```
-   Or if the above fails:
-   ```bash
-   npx vite --host 127.0.0.1
-   ```
+4. Click **"Send Input"**
+5. Click **"Run Code"**
+6. See output in the Output panel
 
-5. **Open your browser** and navigate to the provided local URL
+### Switching Between Projects
+
+Use the **Project Selector** dropdown at the top of the IDE:
+1. Click the dropdown showing current project name
+2. Search or scroll to find your project
+3. Click to switch
+
+### Sharing Projects
+
+1. Select a project
+2. Click the **"Share Project"** button in the toolbar
+3. Choose link type:
+   - **View-Only**: Recipients can only view the code
+   - **Edit**: Recipients can view and edit (changes sync)
+4. Click **"Generate Link"**
+5. Copy the link and share it
+
+### Formatting Code
+
+1. Write or paste unformatted code
+2. Click the **"Format"** button (magic wand icon)
+3. Code will be automatically formatted
+
+### Downloading Projects
+
+1. Select a project
+2. Click the **"Download"** button (download icon)
+3. A ZIP file will be downloaded with all project files
+
+### Version History
+
+1. Select a file
+2. Click the **"History"** button (clock icon)
+3. View all previous versions
+4. Click **"Restore"** to revert to a previous version
+
+## 🎨 Customization
+
+### Changing Theme Colors
+
+Edit `src/index.css` to customize the color scheme:
+
+```css
+:root {
+  --primary: 220 70% 50%;        /* Deep blue */
+  --secondary: 45 90% 60%;       /* Gold */
+  --accent: 220 60% 95%;         /* Light blue */
+  /* ... more colors ... */
+}
+
+.dark {
+  --primary: 220 70% 60%;        /* Lighter blue for dark mode */
+  --secondary: 45 90% 65%;       /* Brighter gold */
+  /* ... more colors ... */
+}
+```
+
+### Adding New Languages
+
+Edit `src/services/codeExecution.ts`:
+
+```typescript
+export const SUPPORTED_LANGUAGES = [
+  { value: 'javascript', label: 'JavaScript', version: '18.15.0' },
+  { value: 'python', label: 'Python', version: '3.10.0' },
+  // Add your language here
+  { value: 'ruby', label: 'Ruby', version: '3.0.1' },
+];
+```
+
+### Customizing Editor Settings
+
+Edit `src/components/editor/CodeEditor.tsx`:
+
+```typescript
+const editorOptions = {
+  fontSize: 14,              // Change font size
+  tabSize: 2,                // Change tab width
+  minimap: { enabled: true }, // Show/hide minimap
+  // ... more options
+};
+```
+
+## 🧪 Testing
+
+### Run Linting
+
+```bash
+# Check for code quality issues
+pnpm run lint
+
+# Auto-fix issues
+pnpm run lint --fix
+```
+
+### Manual Testing Checklist
+
+- [ ] User can sign up and log in
+- [ ] User can create projects
+- [ ] User can create files
+- [ ] User can write and edit code
+- [ ] JavaScript code executes in browser
+- [ ] Python code executes with Piston API
+- [ ] Input panel works with Python `input()`
+- [ ] Output panel shows results
+- [ ] Code formatting works
+- [ ] File renaming works
+- [ ] File deletion works
+- [ ] Project switching works
+- [ ] Share links generate correctly
+- [ ] Version history saves and restores
+- [ ] Theme switching works
+- [ ] Project download works
+
+## 🏗️ Building for Production
+
+### Build the Application
+
+```bash
+# Create production build
+pnpm run build
+```
+
+This creates an optimized build in the `dist/` folder.
+
+### Preview Production Build
+
+```bash
+# Preview the production build locally
+pnpm run preview
+```
+
+### Deploy to Hosting
+
+#### Option 1: Vercel (Recommended)
+
+```bash
+# Install Vercel CLI
+npm install -g vercel
+
+# Deploy
+vercel
+```
+
+#### Option 2: Netlify
+
+```bash
+# Install Netlify CLI
+npm install -g netlify-cli
+
+# Deploy
+netlify deploy --prod
+```
+
+#### Option 3: Static Hosting
+
+Upload the contents of `dist/` folder to any static hosting service:
+- GitHub Pages
+- Cloudflare Pages
+- AWS S3 + CloudFront
+- Firebase Hosting
+
+**Important**: Set environment variables in your hosting platform:
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_ANON_KEY`
+- `VITE_APP_ID`
+- `VITE_API_ENV`
 
 ## 📁 Project Structure
 
 ```
-├── README.md                 # Documentation
-├── components.json           # Component library configuration
-├── index.html               # Entry HTML file
-├── package.json             # Package management
-├── postcss.config.js        # PostCSS configuration
-├── public                   # Static resources
-│   ├── favicon.png
-│   └── images
-├── src                      # Source code
-│   ├── App.tsx             # Main app component
-│   ├── components          # React components
-│   │   ├── editor          # Editor-specific components
-│   │   │   ├── CodeEditor.tsx
-│   │   │   ├── FileTree.tsx
-│   │   │   ├── OutputPanel.tsx
-│   │   │   └── Toolbar.tsx
-│   │   └── ui              # shadcn/ui components
-│   ├── contexts            # React contexts
-│   ├── hooks               # Custom hooks
-│   │   └── useTheme.ts
-│   ├── index.css           # Global styles
-│   ├── lib                 # Utility libraries
-│   │   ├── supabase.ts     # Supabase client
-│   │   └── utils.ts
-│   ├── main.tsx            # Entry point
-│   ├── pages               # Page components
-│   │   └── IDEPage.tsx     # Main IDE page
-│   ├── routes.tsx          # Routing configuration
-│   ├── services            # API services
-│   │   └── database.ts     # Database operations
-│   └── types               # TypeScript types
-│       └── index.ts
-├── supabase                # Supabase configuration
-│   └── migrations          # Database migrations
-├── tailwind.config.js      # Tailwind CSS configuration
-├── tsconfig.json           # TypeScript configuration
-└── vite.config.ts          # Vite configuration
+app-8baywyxqb8xt/
+├── public/                      # Static assets
+│   └── images/                  # Images (logo, hero)
+├── src/
+│   ├── components/              # React components
+│   │   ├── editor/              # Editor-specific components
+│   │   │   ├── CodeEditor.tsx   # Monaco editor wrapper
+│   │   │   ├── FileTree.tsx     # File/project tree
+│   │   │   ├── InputPanel.tsx   # Stdin input panel
+│   │   │   ├── OutputPanel.tsx  # Execution output
+│   │   │   ├── ProjectSelector.tsx  # Project dropdown
+│   │   │   ├── ShareProjectDialog.tsx  # Share dialog
+│   │   │   ├── Toolbar.tsx      # Editor toolbar
+│   │   │   └── ...              # More editor components
+│   │   ├── layouts/             # Layout components
+│   │   │   └── Header.tsx       # App header
+│   │   └── ui/                  # shadcn/ui components
+│   │       ├── button.tsx
+│   │       ├── dialog.tsx
+│   │       ├── input.tsx
+│   │       └── ...              # More UI components
+│   ├── contexts/                # React contexts
+│   │   └── AuthContext.tsx      # Authentication context
+│   ├── hooks/                   # Custom React hooks
+│   │   ├── use-debounce.ts      # Debounce hook
+│   │   └── use-toast.ts         # Toast notifications
+│   ├── lib/                     # Utility libraries
+│   │   ├── supabase.ts          # Supabase client
+│   │   └── utils.ts             # Helper functions
+│   ├── pages/                   # Page components
+│   │   ├── HomePage.tsx         # Landing page
+│   │   ├── IDEPage.tsx          # Main IDE interface
+│   │   ├── LoginPage.tsx        # Login/signup page
+│   │   └── SharePage.tsx        # Shared project viewer
+│   ├── services/                # API services
+│   │   ├── codeExecution.ts     # Code execution logic
+│   │   └── database.ts          # Supabase API calls
+│   ├── types/                   # TypeScript types
+│   │   └── index.ts             # Type definitions
+│   ├── App.tsx                  # Root component
+│   ├── index.css                # Global styles & theme
+│   ├── main.tsx                 # App entry point
+│   └── routes.tsx               # Route definitions
+├── supabase/
+│   └── migrations/              # Database migrations
+│       ├── 00001_create_code_files_and_projects.sql
+│       ├── 00002_add_versions_and_sharing.sql
+│       └── 00003_add_auth_and_sharing.sql
+├── .env                         # Environment variables (create this)
+├── .env.example                 # Environment template
+├── package.json                 # Dependencies
+├── tsconfig.json                # TypeScript config
+├── vite.config.ts               # Vite config
+├── tailwind.config.mjs          # Tailwind config
+├── components.json              # shadcn/ui config
+└── README.md                    # This file
 ```
 
-## 🛠️ Tech Stack
+## 🔧 Troubleshooting
 
-- **Frontend Framework**: React 18 with TypeScript
-- **Build Tool**: Vite
-- **UI Components**: shadcn/ui + Tailwind CSS
-- **Code Editor**: Monaco Editor (same editor as VS Code)
-- **Database**: Supabase (PostgreSQL)
-- **Styling**: Tailwind CSS with custom Athena-inspired theme
+### Issue: "Cannot connect to Supabase"
 
-## 💡 Usage
+**Solution**:
+1. Check `.env` file has correct `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`
+2. Verify Supabase project is active (not paused)
+3. Check browser console for specific error messages
+4. Ensure you're using `https://` in the URL
 
-### Creating a New Project
-1. Click the **+** button next to "Projects" in the left sidebar
-2. Enter a project name and optional description
-3. Click "Create"
+### Issue: "Failed to create project/file"
 
-### Creating a New File
-1. Select a project from the file tree
-2. Click the **+** button next to the project name
-3. Enter a file name with extension (e.g., `script.py`, `main.cpp`, `app.js`)
-4. Language is automatically detected from file extension
-5. Click "Create"
+**Solution**:
+1. Check if you're logged in (look for user icon in header)
+2. Verify database migrations ran successfully
+3. Check Supabase dashboard → Database → Tables exist
+4. Check RLS policies are enabled
+5. Look at browser console for error details
 
-### Writing and Running Code
-1. Select a file from the file tree
-2. Choose programming language from the dropdown (if needed)
-3. Write your code in the Monaco Editor
-4. Click the **Run Code** button in the toolbar
-5. View the output in the right panel
+### Issue: "Code execution fails"
 
-### Using Version History 📚
-1. Open any file
-2. Click the **History** button in the toolbar
-3. Browse all previous versions with timestamps
-4. Click the restore icon (↻) to revert to any version
-5. Versions are automatically created when you save
+**Solution**:
+1. **For JavaScript**: Check browser console for errors
+2. **For other languages**: 
+   - Verify Piston API is accessible
+   - Check network tab for API call failures
+   - Try a simple "Hello World" program first
+3. Check if language is supported in `SUPPORTED_LANGUAGES`
 
-### Sharing Code 🔗
-1. Open the file you want to share
-2. Click the **Share** button in the toolbar
-3. Select expiration period:
-   - **Never**: Link works forever
-   - **1 Day**: Expires in 24 hours
-   - **7 Days**: Expires in 1 week
-   - **30 Days**: Expires in 1 month
-4. Click "Create Share Link"
-5. Copy the link and share with others
-6. Recipients can view code without login
+### Issue: "Input not working with Python"
 
-### Multi-Language Support 🌐
-1. Create file with appropriate extension:
-   - `.js` → JavaScript
-   - `.py` → Python
-   - `.cpp` → C++
-   - `.c` → C
-   - `.java` → Java
-   - `.ts` → TypeScript
-   - `.go` → Go
-   - `.rs` → Rust
-   - `.rb` → Ruby
-   - `.php` → PHP
-2. Or manually select language from dropdown
-3. Code execution adapts automatically
+**Solution**:
+1. Make sure you enter input in the **Input panel** first
+2. Click **"Send Input"** button
+3. Then click **"Run Code"**
+4. Input should be one value per line for multiple `input()` calls
 
-### Theme Switching
-- Click the sun/moon icon in the toolbar to toggle between light and dark modes
+### Issue: "Share links not generating"
 
-### Auto-Save
-- Your code is automatically saved 1 second after you stop typing
-- Versions are created automatically on each save
-- You can also manually save by clicking the **Save** button
+**Solution**:
+1. Verify `shares` table exists in Supabase
+2. Check RLS policies on `shares` table
+3. Ensure you're logged in
+4. Check browser console for errors
+5. Verify the project belongs to you
 
-## 🗄️ Database Schema
+### Issue: "Build fails"
 
-### Projects Table
-```sql
-- id: UUID (Primary Key)
-- name: TEXT
-- description: TEXT
-- created_at: TIMESTAMPTZ
-- updated_at: TIMESTAMPTZ
-```
-
-### Code Files Table
-```sql
-- id: UUID (Primary Key)
-- project_id: UUID (Foreign Key)
-- name: TEXT
-- content: TEXT
-- language: TEXT (default: 'javascript')
-- created_at: TIMESTAMPTZ
-- updated_at: TIMESTAMPTZ
-```
-
-### File Versions Table (New! 📚)
-```sql
-- id: UUID (Primary Key)
-- file_id: UUID (Foreign Key)
-- content: TEXT
-- version_number: INTEGER
-- description: TEXT
-- created_at: TIMESTAMPTZ
-```
-
-### Shared Snippets Table (New! 🔗)
-```sql
-- id: UUID (Primary Key)
-- share_id: TEXT (Unique, 10 characters)
-- file_id: UUID (Foreign Key)
-- title: TEXT
-- content: TEXT
-- language: TEXT
-- created_at: TIMESTAMPTZ
-- expires_at: TIMESTAMPTZ (nullable)
-- view_count: INTEGER (default: 0)
-```
-
-## 🔒 Security
-
-- Row Level Security (RLS) is enabled on all tables
-- Public access policies are configured for ease of use (no authentication required)
-- Code execution is sandboxed:
-  - JavaScript: Browser sandbox (no file system access)
-  - Other languages: Piston API isolated containers
-
-## 🎓 Winter Assignment 3 Features
-
-This project includes advanced features implemented for Winter Assignment 3:
-
-### ✅ Implemented Features
-
-1. **Multiple Language Support** (10 languages)
-   - JavaScript, Python, C++, C, Java, TypeScript, Go, Rust, Ruby, PHP
-   - Piston API integration for backend execution
-   - Automatic language detection from file extensions
-
-2. **Version History & Auto-Save**
-   - Automatic version checkpoints on every save
-   - Browse and restore previous versions
-   - Never lose your work
-
-3. **Shareable Snippet Links**
-   - Generate unique URLs for code sharing
-   - Optional expiration (1, 7, 30 days, or never)
-   - View counter and public read-only access
-
-### ⏸️ Deferred Features
-
-4. **Real-Time Collaboration**
-   - Deferred due to complexity (requires WebSockets, CRDT, authentication)
-   - Recommended as Phase 2 enhancement
-
-### 📚 Additional Documentation
-
-- **WINTER_ASSIGNMENT_FEATURES.md**: Detailed feature documentation with examples
-- **TODO_WINTER_ASSIGNMENT.md**: Implementation progress and technical details
-- **DEPLOYMENT_CHECKLIST.md**: Production deployment guide
-
-## 🚀 Deployment
-
-The application is production-ready and can be deployed to:
-
-### Vercel (Recommended)
+**Solution**:
 ```bash
-npm i -g vercel
-vercel
+# Clear cache and reinstall
+rm -rf node_modules pnpm-lock.yaml
+pnpm install
+
+# Try building again
+pnpm run build
 ```
 
-### Netlify
+### Issue: "TypeScript errors"
+
+**Solution**:
 ```bash
-npm i -g netlify-cli
-netlify deploy --prod
+# Check for type errors
+pnpm run type-check
+
+# If using VS Code, reload window
+# Cmd/Ctrl + Shift + P → "Reload Window"
 ```
-
-**Important**: Set environment variables in your hosting platform:
-- `VITE_APP_ID`
-- `VITE_SUPABASE_URL`
-- `VITE_SUPABASE_ANON_KEY`
-
-See `DEPLOYMENT_CHECKLIST.md` for detailed instructions.
-
-## 📝 License
-
-Copyright 2025 Athena's Code Chambers
 
 ## 🤝 Contributing
 
-This is a Miaoda-generated project. For more information about Miaoda, visit:
-- Documentation: [https://intl.cloud.baidu.com/en/doc/MIAODA/](https://intl.cloud.baidu.com/en/doc/MIAODA/)
+Contributions are welcome! Here's how you can help:
 
-## 🆘 Support
+1. **Fork the repository**
+2. **Create a feature branch**: `git checkout -b feature/amazing-feature`
+3. **Make your changes**
+4. **Run linting**: `pnpm run lint`
+5. **Commit your changes**: `git commit -m 'Add amazing feature'`
+6. **Push to the branch**: `git push origin feature/amazing-feature`
+7. **Open a Pull Request**
 
-For issues or questions:
-1. Check the Miaoda documentation
-2. Review the code comments and type definitions
-3. Inspect the browser console for error messages
-4. See WINTER_ASSIGNMENT_FEATURES.md for feature-specific help
+### Code Style Guidelines
+
+- Use TypeScript for all new files
+- Follow existing component structure
+- Use functional components with hooks
+- Add proper TypeScript types
+- Use Tailwind CSS for styling
+- Follow shadcn/ui patterns for UI components
+- Add comments for complex logic
+- Keep functions small and focused
+
+## 📝 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🙏 Acknowledgments
+
+- **Athena** - Greek goddess of wisdom, inspiration for the theme
+- **Monaco Editor** - VS Code's powerful editor
+- **Piston API** - Secure code execution engine
+- **Supabase** - Amazing backend platform
+- **shadcn/ui** - Beautiful UI components
+- **Tailwind CSS** - Utility-first CSS framework
+- **React Team** - For the amazing library
+
+## 📧 Support
+
+If you encounter any issues or have questions:
+
+1. Check the [Troubleshooting](#-troubleshooting) section
+2. Search existing GitHub issues
+3. Create a new issue with:
+   - Clear description of the problem
+   - Steps to reproduce
+   - Expected vs actual behavior
+   - Screenshots if applicable
+   - Browser and OS information
+
+## 🗺️ Roadmap
+
+Future enhancements planned:
+
+- [ ] Real-time collaborative editing
+- [ ] Code snippets library
+- [ ] Integrated terminal
+- [ ] Git integration
+- [ ] Plugin system
+- [ ] AI code suggestions
+- [ ] Mobile app
+- [ ] Code playground templates
+- [ ] Social features (follow users, like projects)
+- [ ] Code execution statistics
+
+## 🌟 Star History
+
+If you find this project useful, please consider giving it a star on GitHub! ⭐
 
 ---
 
-**May Athena's wisdom guide your code!** ✨
+**Built with ❤️ and wisdom from Athena**
+
+*May your code be bug-free and your logic be sound!* 🦉

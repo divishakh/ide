@@ -80,16 +80,19 @@ A browser-based online code editing and execution environment that provides user
 - Smooth theme transitions
 
 ### 4.5 Shareable Snippet Links
-- Generate unique URLs so users can easily share their code with others
+- **Generate unique URLs** so users can easily share their code with others
+- **Share button prominently displayed** in the toolbar or file menu
 - **Two sharing modes**:
   + **Editable Link**: Recipients can edit the code, and changes are visible in the original code (real-time synchronization)
   + **View-Only Link**: Recipients can only view the code without editing permissions
-- Clear UI options to select sharing mode when generating the link
+- **Clear UI options** to select sharing mode when generating the link (modal dialog or dropdown)
+- **Copy link to clipboard** functionality with visual confirmation
+- **Link generation logic**: Create unique shareable URLs that persist code state and project context
+- **Access control**: Implement proper permissions handling for editable vs view-only links
 
 ### 4.6 Real-Time Collaboration
 - Allow multiple users to edit the same file simultaneously
-- Requires authentication and WebSockets/CRDT libraries (such as Yjs)
-\n### 4.7 Application Deployment
+- Requires authentication and WebSockets/CRDT libraries (such as Yjs)\n\n### 4.7 Application Deployment
 - Deploy the IDE so it is accessible through a public URL
 \n## 5. Design Style
 
@@ -137,6 +140,7 @@ A browser-based online code editing and execution environment that provides user
 - Dropdown menu for project selection with smooth transitions
 - **Interactive input area** that slides in or expands when code requests input
 - **Real-time file list updates** with smooth animations when new files are added
+- **Share button with modal dialog** for link generation and mode selection
 \n### 5.6 Overall Aesthetic
 - Premium, handcrafted appearance that avoids AI-generated look
 - Attention to detail in spacing, alignment, and visual balance
@@ -144,3 +148,200 @@ A browser-based online code editing and execution environment that provides user
 - Natural, human-centered design language with organic transitions and thoughtful interactions
 - Unique visual personality that feels intentionally designed rather than template-based
 - Use of provided logo (image-2.png) and hero image (image.png) to reinforce brand identity and aesthetic appeal
+
+## 6. Technology Stack
+
+### 6.1 Frontend
+- **Framework**: React.js (v18+) with TypeScript for type safety and component-based architecture
+- **Code Editor**: Monaco Editor (the same editor that powers VS Code)\n- **State Management**: Redux Toolkit or Zustand for global state management\n- **Styling**: Tailwind CSS for utility-first styling with custom theme configuration
+- **Routing**: React Router (v6+) for navigation between landing page and editor
+- **UI Components**: Radix UI or Headless UI for accessible, unstyled component primitives
+- **Animations**: Framer Motion for smooth transitions and micro-interactions
+
+### 6.2 Backend
+- **Runtime**: Node.js (v18+ LTS)\n- **Framework**: Express.js or Fastify for RESTful API endpoints
+- **Authentication**: JWT (JSON Web Tokens) with bcrypt for password hashing
+- **Database**: PostgreSQL for user accounts, projects, and file metadata
+- **ORM**: Prisma or TypeORM for database operations
+- **Code Execution**: Docker containers or isolated sandboxes for secure multi-language code execution
+- **File Storage**: AWS S3 or local file system for storing project files
+\n### 6.3 Real-Time Features
+- **WebSockets**: Socket.io for real-time collaboration and live updates
+- **CRDT Library**: Yjs for conflict-free replicated data types in collaborative editing
+\n### 6.4 Sharing & Collaboration
+- **Link Generation**: UUID or nanoid for unique shareable link identifiers
+- **Access Control**: Database-backed permissions system for editable vs view-only links
+- **Link Storage**: Store link metadata (code snapshot, permissions, expiration) in database
+\n### 6.5 Deployment
+- **Frontend Hosting**: Vercel, Netlify, or AWS Amplify for static site deployment
+- **Backend Hosting**: AWS EC2,DigitalOcean, or Railway for Node.js server\n- **Database Hosting**: AWS RDS, Supabase, or managed PostgreSQL service
+- **CDN**: Cloudflare or AWS CloudFront for asset delivery
+- **Domain & SSL**: Custom domain with Let's Encrypt SSL certificate
+
+### 6.6 Development Tools
+- **Package Manager**: npm or pnpm\n- **Build Tool**: Vite for fast development and optimized production builds
+- **Linting**: ESLint with TypeScript support
+- **Formatting**: Prettier for consistent code style
+- **Version Control**: Git with GitHub/GitLab for source code management
+
+## 7. Implementation Guide (README.md)
+
+### 7.1 Prerequisites
+Before you begin, ensure you have the following installed:
+- Node.js (v18 or higher)
+- npm or pnpm package manager
+- PostgreSQL (v14 or higher)
+- Git
+- Docker (optional, for code execution sandboxing)
+
+### 7.2 Project Setup
+\n#### Step 1: Clone the Repository
+```bash
+git clone <repository-url>
+cd athenas-code-chambers
+```\n
+#### Step 2: Install Dependencies
+```bash
+# Install frontend dependencies
+cd frontend\nnpm install
+
+# Install backend dependencies
+cd ../backend
+npm install
+```
+
+#### Step 3: Environment Configuration
+Create `.env` files in both frontend and backend directories:
+
+**Frontend `.env`:**
+```\nVITE_API_URL=http://localhost:3001
+VITE_WS_URL=ws://localhost:3001
+```
+
+**Backend `.env`:**
+```
+DATABASE_URL=postgresql://username:password@localhost:5432/athena_code\nJWT_SECRET=your-secret-key-here
+PORT=3001
+NODE_ENV=development
+```
+
+#### Step 4: Database Setup
+```bash
+cd backend
+\n# Run database migrations
+npx prisma migrate dev
+\n# Generate Prisma client
+npx prisma generate
+```
+
+### 7.3 Running the Application
+\n#### Development Mode
+Open two terminal windows:
+\n**Terminal 1 - Backend:**
+```bash
+cd backend
+npm run dev
+```
+
+**Terminal 2 - Frontend:**\n```bash
+cd frontend\nnpm run dev
+```
+
+The application will be available at:\n- Frontend: http://localhost:5173
+- Backend API: http://localhost:3001\n
+### 7.4 Building for Production
+
+#### Frontend Build
+```bash
+cd frontend
+npm run build
+```
+This creates an optimized production build in the `dist` folder.
+
+#### Backend Build
+```bash
+cd backend
+npm run build\n```
+
+### 7.5 Deployment Instructions
+
+#### Frontend Deployment (Vercel)
+1. Push your code to GitHub
+2. Connect your repository to Vercel
+3. Configure build settings:\n   - Build Command: `npm run build`
+   - Output Directory: `dist`
+4. Add environment variables in Vercel dashboard
+5. Deploy\n
+#### Backend Deployment (Railway/DigitalOcean)
+1. Create a new project on your hosting platform
+2. Connect your GitHub repository
+3. Configure environment variables
+4. Set start command: `npm start`
+5. Deploy
+
+#### Database Deployment\n1. Create a PostgreSQL database on your hosting provider
+2. Update `DATABASE_URL` in backend environment variables
+3. Run migrations: `npx prisma migrate deploy`
+\n### 7.6 Key Features Implementation Notes
+
+#### Monaco Editor Integration
+```javascript
+import * as monaco from 'monaco-editor';
+
+const editor = monaco.editor.create(document.getElementById('editor'), {
+  value: 'console.log(\"Hello World\");',
+  language: 'javascript',
+  theme: 'vs-dark'\n});
+```
+\n#### Shareable Links Implementation
+1. Generate unique link ID when user clicks share button
+2. Store code snapshot and permissions in database
+3. Create shareable URL: `https://yourdomain.com/share/{linkId}`
+4. Implement access control middleware to check permissions
+5. Load code from database when accessing shared link
+
+#### File Management
+- Store file metadata in PostgreSQL
+- Store file content in S3 or local filesystem
+- Implement real-time file tree updates using WebSockets
+\n### 7.7 Troubleshooting
+
+**Monaco Editor not loading:**
+- Ensure Monaco Editor assets are properly configured in Vite
+- Check browser console for CORS errors
+\n**Database connection errors:**
+- Verify PostgreSQL is running\n- Check DATABASE_URL format and credentials
+
+**WebSocket connection issues:**
+- Ensure backend WebSocket server is running
+- Check firewall settings
+
+### 7.8 Additional Resources
+- Monaco Editor Documentation: https://microsoft.github.io/monaco-editor/
+- React Documentation: https://react.dev/
+- Prisma Documentation: https://www.prisma.io/docs\n- Socket.io Documentation: https://socket.io/docs/
+\n### 7.9 Project Structure
+```
+athenas-code-chambers/\n├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── hooks/
+│   │   ├── utils/
+│   │   └── App.tsx
+│   ├── public/
+│   └── package.json
+├── backend/
+│   ├── src/
+│   │   ├── routes/
+│   │   ├── controllers/
+│   │   ├── middleware/
+│   │   ├── models/
+│   │   └── server.ts
+│   ├── prisma/
+│   └── package.json
+└── README.md
+```\n
+## 8. Reference Images
+- Hero image for landing page: image.png
+- Website logo: image-2.png
