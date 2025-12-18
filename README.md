@@ -554,6 +554,14 @@ app-8baywyxqb8xt/
 4. Check browser console for errors
 5. Verify the project belongs to you
 
+**If buttons are not clickable:**
+1. Open browser console (F12)
+2. Click the button and check for console messages
+3. Should see "button clicked!" and "handleGenerateLink called"
+4. If no messages appear, try refreshing the page
+5. Check if any browser extensions are blocking clicks
+6. See [BUTTON_CLICK_DEBUG.md](./BUTTON_CLICK_DEBUG.md) for detailed debugging
+
 ### Issue: "Build fails"
 
 **Solution**:

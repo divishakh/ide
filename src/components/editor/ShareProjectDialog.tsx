@@ -38,6 +38,9 @@ export function ShareProjectDialog({
   const { user } = useAuth();
 
   const handleGenerateLink = async (perm: 'view' | 'edit') => {
+    console.log('handleGenerateLink called with permission:', perm);
+    console.log('User:', user);
+    
     if (!user) {
       toast({
         title: 'Error',
@@ -49,12 +52,15 @@ export function ShareProjectDialog({
 
     try {
       setLoading(true);
+      console.log('Creating share for project:', projectId);
 
       const share = await sharesApi.create(
         projectId,
         perm,
         user.id
       );
+
+      console.log('Share created:', share);
 
       const url = `${window.location.origin}/share/${share.share_token}`;
       
@@ -109,7 +115,7 @@ export function ShareProjectDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[550px]">
+      <DialogContent className="sm:max-w-[550px] z-50">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Share2 className="h-5 w-5" />
@@ -120,7 +126,7 @@ export function ShareProjectDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-6 py-4">
+        <div className="space-y-6 py-4 relative z-10">
           {/* View-Only Link */}
           <div className="space-y-3 rounded-lg border p-4 organic-border">
             <div className="flex items-center gap-2">
@@ -133,13 +139,19 @@ export function ShareProjectDialog({
             
             {!viewShareUrl ? (
               <Button
-                onClick={() => handleGenerateLink('view')}
+                type="button"
+                onClick={(e) => {
+                  console.log('View-Only button clicked!');
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleGenerateLink('view');
+                }}
                 disabled={loading}
-                className="w-full"
+                className="w-full pointer-events-auto cursor-pointer"
                 variant="outline"
               >
                 <LinkIcon className="mr-2 h-4 w-4" />
-                Generate View-Only Link
+                {loading ? 'Generating...' : 'Generate View-Only Link'}
               </Button>
             ) : (
               <div className="space-y-2">
@@ -150,9 +162,15 @@ export function ShareProjectDialog({
                     className="font-mono text-sm"
                   />
                   <Button
+                    type="button"
                     size="icon"
                     variant="outline"
-                    onClick={() => handleCopy(viewShareUrl, 'view')}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleCopy(viewShareUrl, 'view');
+                    }}
+                    className="pointer-events-auto cursor-pointer"
                   >
                     {copiedView ? (
                       <Check className="h-4 w-4 text-success" />
@@ -162,10 +180,15 @@ export function ShareProjectDialog({
                   </Button>
                 </div>
                 <Button
+                  type="button"
                   size="sm"
                   variant="ghost"
-                  onClick={() => handleOpenLink(viewShareUrl)}
-                  className="w-full"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleOpenLink(viewShareUrl);
+                  }}
+                  className="w-full pointer-events-auto cursor-pointer"
                 >
                   Open in New Tab
                 </Button>
@@ -185,12 +208,18 @@ export function ShareProjectDialog({
             
             {!editShareUrl ? (
               <Button
-                onClick={() => handleGenerateLink('edit')}
+                type="button"
+                onClick={(e) => {
+                  console.log('Edit button clicked!');
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleGenerateLink('edit');
+                }}
                 disabled={loading}
-                className="w-full"
+                className="w-full pointer-events-auto cursor-pointer"
               >
                 <LinkIcon className="mr-2 h-4 w-4" />
-                Generate Edit Link
+                {loading ? 'Generating...' : 'Generate Edit Link'}
               </Button>
             ) : (
               <div className="space-y-2">
@@ -201,8 +230,14 @@ export function ShareProjectDialog({
                     className="font-mono text-sm"
                   />
                   <Button
+                    type="button"
                     size="icon"
-                    onClick={() => handleCopy(editShareUrl, 'edit')}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleCopy(editShareUrl, 'edit');
+                    }}
+                    className="pointer-events-auto cursor-pointer"
                   >
                     {copiedEdit ? (
                       <Check className="h-4 w-4" />
@@ -212,10 +247,15 @@ export function ShareProjectDialog({
                   </Button>
                 </div>
                 <Button
+                  type="button"
                   size="sm"
                   variant="ghost"
-                  onClick={() => handleOpenLink(editShareUrl)}
-                  className="w-full"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleOpenLink(editShareUrl);
+                  }}
+                  className="w-full pointer-events-auto cursor-pointer"
                 >
                   Open in New Tab
                 </Button>
