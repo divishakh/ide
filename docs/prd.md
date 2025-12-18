@@ -10,8 +10,7 @@ A browser-based online code editing and execution environment that provides user
 - A welcoming home page that introduces the platform\n- Use the provided image (image.png) as the hero visual on the home page to create an aesthetic, immersive experience
 - Adjust the color tones of image.png dynamically to match light mode and dark mode themes
 - Display the provided logo (image-2.png) prominently in the header or branding area
-- Clear call-to-action buttons for 'Sign Up' and 'Log In'
-- Brief overview of key features and benefits
+- Clear call-to-action buttons for 'Sign Up' and 'Log In'\n- Brief overview of key features and benefits
 - Smooth transition to the main editor interface after authentication
 
 ### 3.2 User Authentication
@@ -25,29 +24,36 @@ A browser-based online code editing and execution environment that provides user
 - IntelliSense-style code hints and parameter information
 - Snippet suggestions based on language context
 \n### 3.4 Input and Output Handling
-- Separate dedicated section for user input\n- Separate dedicated section for displaying code output
-- Interactive input area that appears when code execution requires user input
-- Clear visual distinction between input and output sections
-- Support for multiple input requests during single execution
-- Real-time output display as code executes
+- **Separate dedicated input section**: When code execution requires user input (e.g., Python's input() or m=input()), a distinct input column/area appears
+- **Interactive input area**: Automatically displays when code requests input during execution
+- **Separate dedicated output section**: Displays code execution results independently from input area
+- **Clear visual distinction**: Input and output sections are visually separated with clear boundaries
+- **Support for multiple input requests**: Handle multiple input() calls during single execution
+- **Real-time output display**: Show output as code executes, separate from input interactions
+- **Input persistence**: Input values remain visible during execution for reference
 
 ### 3.5 Code Execution
 - Users can run code and view output results in dedicated output section
 - Default support for JavaScript (runs directly in the browser)
 - Real-time output display separated from input area
+- Automatic detection of input requirements and display of input section when needed
 \n### 3.6 File Management
 - Support for creating, saving, loading, and deleting code files
+- **New file visibility**: After clicking 'New File' and creating it, the file immediately appears in the left side file list
+- **Automatic file list update**: File tree/list updates in real-time when new files are created
 - Automatic file extension detection and assignment based on language type
 - Correct file extensions applied when saving (.js for JavaScript, .py for Python, etc.)
 - Simple file list or file tree navigation
 - File metadata display (language type, last modified)\n- **Rename functionality for both projects and individual files**
 - Right-click or dedicated button to trigger rename action
 \n### 3.7 Project Management
-- Create new projects via plus button with proper save functionality
+- **Create new projects button**: Dedicated 'Create Project' or plus button with proper save functionality
+- **Project selection interface**: Clear, accessible button or dropdown to choose which project to work on
+- **Project switcher**: Prominent UI element (button/dropdown) showing current project name and allowing easy switching between projects
 - **Fix: Ensure new projects are properly created and saved when clicking plus button**
 - **Rename projects** with intuitive interface (double-click or context menu)
 - **Download entire project** to local computer as a zip file or folder structure
-- **Project dropdown menu**: Clicking the project dropdown displays all existing projects for easy navigation and switching
+- **Project list display**: Clicking the project selector displays all existing projects for easy navigation and switching
 - Project list with clear visual indicators\n- Project switching without losing unsaved work
 
 ### 3.8 Editor Controls
@@ -60,6 +66,7 @@ A browser-based online code editing and execution environment that provides user
 ### 4.1 Multiple Language Support
 - Add languages like Python or C++ using a backend runner or an execution API
 - Language-specific auto-completion and syntax validation
+- Proper input handling for languages that require user input (Python input(), C++ cin, etc.)
 \n### 4.2 Project Workspaces
 - Group multiple files into projects instead of working with isolated code files
 - Project-level settings and configurations
@@ -69,13 +76,15 @@ A browser-based online code editing and execution environment that provides user
 
 ### 4.4 Enhanced Theme Switching
 - Refined dark mode with carefully balanced contrast and colors
-- Light mode option\n- Custom theme support\n- Smooth theme transitions
+- Light mode option\n- Custom theme support
+- Smooth theme transitions
 
 ### 4.5 Shareable Snippet Links
 - Generate unique URLs so users can easily share their code with others
 - **Two sharing modes**:
   + **Editable Link**: Recipients can edit the code, and changes are visible in the original code (real-time synchronization)
-  + **View-Only Link**: Recipients can only view the code without editing permissions\n- Clear UI options to select sharing mode when generating the link
+  + **View-Only Link**: Recipients can only view the code without editing permissions
+- Clear UI options to select sharing mode when generating the link
 
 ### 4.6 Real-Time Collaboration
 - Allow multiple users to edit the same file simultaneously
@@ -85,15 +94,13 @@ A browser-based online code editing and execution environment that provides user
 \n## 5. Design Style
 
 ### 5.1 Visual Reference
-- Frontend design reference: https://www.figma.com/make/DbGBkS3rAILpaGu4FqR3R7/Online-Coding-Environment?t=CFldPgqM63UilNRX-1
-- Additional inspiration from unseen.co for elegant, refined aesthetics
+- Frontend design reference: https://www.figma.com/make/DbGBkS3rAILpaGu4FqR3R7/Online-Coding-Environment?t=CFldPgqM63UilNRX-1\n- Additional inspiration from unseen.co for elegant, refined aesthetics
 - Reference images: image.png (for home page hero visual) and image-2.png (for website logo)
 - **Design must not appear AI-generated; focus on handcrafted, human-centered details**
 
 ### 5.2 Typography
 - Modern, professional font family with excellent code readability
-- Distinct font choices for UI elements vs. code editor
-- Consistent font weights and sizes across the interface
+- Distinct font choices for UI elements vs. code editor\n- Consistent font weights and sizes across the interface
 - Optimized line-height and letter-spacing for extended coding sessions
 
 ### 5.3 Color Scheme
@@ -117,9 +124,10 @@ A browser-based online code editing and execution environment that provides user
 - Generous whitespace and breathing room between elements
 - Smooth rounded corners on cards, buttons, and panels
 - Elegant shadows and depth layers for dimensional feel
-- Responsive grid system that adapts gracefully\n- **Distinct separation between input section and output section**
-
-### 5.5 Interactive Elements
+- Responsive grid system that adapts gracefully\n- **Distinct three-column layout**: Left sidebar for files, center for code editor, right/bottom for input and output sections
+- **Clear separation between input section and output section** with visual dividers
+- **Prominent project selector button** in the top toolbar or sidebar header
+\n### 5.5 Interactive Elements
 - Smooth micro-animations on hover and click states
 - Polished button styles with subtle effects
 - Refined input fields and form controls
@@ -127,12 +135,12 @@ A browser-based online code editing and execution environment that provides user
 - Professional loading states and transitions
 - Context menus for rename and download actions
 - Dropdown menu for project selection with smooth transitions
-
-### 5.6 Overall Aesthetic
+- **Interactive input area** that slides in or expands when code requests input
+- **Real-time file list updates** with smooth animations when new files are added
+\n### 5.6 Overall Aesthetic
 - Premium, handcrafted appearance that avoids AI-generated look
 - Attention to detail in spacing, alignment, and visual balance
-- Cohesive design system with consistent patterns
-- Modern, elegant interface inspired by high-end web applications like unseen.co
+- Cohesive design system with consistent patterns\n- Modern, elegant interface inspired by high-end web applications like unseen.co
 - Natural, human-centered design language with organic transitions and thoughtful interactions
 - Unique visual personality that feels intentionally designed rather than template-based
 - Use of provided logo (image-2.png) and hero image (image.png) to reinforce brand identity and aesthetic appeal

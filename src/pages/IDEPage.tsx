@@ -9,6 +9,7 @@ import { LanguageSelector } from '@/components/editor/LanguageSelector';
 import { VersionHistory } from '@/components/editor/VersionHistory';
 import { ShareDialog } from '@/components/editor/ShareDialog';
 import { ShareProjectDialog } from '@/components/editor/ShareProjectDialog';
+import { ProjectSelector } from '@/components/editor/ProjectSelector';
 import { projectsApi, filesApi, versionsApi } from '@/services/database';
 import { executeCode, getMonacoLanguage } from '@/services/codeExecution';
 import type { Project, CodeFile, ConsoleOutput } from '@/types';
@@ -402,7 +403,8 @@ export default function IDEPage() {
     setOutputs([]);
 
     try {
-      const result = await executeCode(code, language);
+      // Pass userInput as stdin for languages that support it
+      const result = await executeCode(code, language, userInput || undefined);
       
       const newOutputs: ConsoleOutput[] = [];
       
@@ -461,7 +463,7 @@ export default function IDEPage() {
     } finally {
       setIsRunning(false);
     }
-  }, [code, language, toast]);
+  }, [code, language, userInput, toast]);
 
   const handleClearOutput = () => {
     setOutputs([]);
@@ -629,7 +631,15 @@ export default function IDEPage() {
     <div className="flex h-screen flex-col bg-background">
       <Header />
       
-      <div className="flex items-center justify-between border-b bg-card/50 backdrop-blur-sm">
+      <div className="flex items-center justify-between border-b bg-card/50 backdrop-blur-sm gap-3 px-4 py-2">
+        <div className="flex items-center gap-3">
+          <ProjectSelector
+            projects={projects}
+            selectedProject={selectedProject}
+            onSelectProject={handleSelectProject}
+          />
+        </div>
+        
         <div className="flex-1">
           <Toolbar
             onRun={handleRunCode}
@@ -645,7 +655,7 @@ export default function IDEPage() {
           />
         </div>
         
-        <div className="flex items-center gap-2 px-4">
+        <div className="flex items-center gap-2">
           {selectedFile && (
             <>
               <LanguageSelector

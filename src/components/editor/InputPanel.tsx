@@ -77,7 +77,7 @@ export function InputPanel({ onSendInput, onClear, placeholder }: InputPanelProp
       {/* Info Section */}
       <div className="px-4 py-3 border-t border-border bg-muted/20">
         <p className="text-xs text-muted-foreground">
-          💡 Use this panel to provide input when your code uses <code className="px-1 py-0.5 rounded bg-muted text-foreground">prompt()</code> or reads from stdin
+          💡 Enter input here first, then click "Run Code". This input will be used for <code className="px-1 py-0.5 rounded bg-muted text-foreground">input()</code> in Python or stdin in other languages.
         </p>
       </div>
     </div>

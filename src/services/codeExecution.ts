@@ -86,7 +86,8 @@ export function executeJavaScriptInBrowser(code: string): ExecutionResult {
  */
 export async function executeCodeWithPiston(
   code: string,
-  language: string
+  language: string,
+  stdin?: string
 ): Promise<ExecutionResult> {
   const startTime = Date.now();
 
@@ -96,21 +97,28 @@ export async function executeCodeWithPiston(
       throw new Error(`Unsupported language: ${language}`);
     }
 
+    const requestBody: any = {
+      language: langConfig.pistonId,
+      version: langConfig.version,
+      files: [
+        {
+          name: `main.${getFileExtension(language)}`,
+          content: code,
+        },
+      ],
+    };
+
+    // Add stdin if provided
+    if (stdin) {
+      requestBody.stdin = stdin;
+    }
+
     const response = await fetch(`${PISTON_API_URL}/execute`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        language: langConfig.pistonId,
-        version: langConfig.version,
-        files: [
-          {
-            name: `main.${getFileExtension(language)}`,
-            content: code,
-          },
-        ],
-      }),
+      body: JSON.stringify(requestBody),
     });
 
     if (!response.ok) {
@@ -146,7 +154,8 @@ export async function executeCodeWithPiston(
  */
 export async function executeCode(
   code: string,
-  language: string
+  language: string,
+  stdin?: string
 ): Promise<ExecutionResult> {
   // Use browser execution for JavaScript (faster, no API limits)
   if (language === 'javascript') {
@@ -154,7 +163,7 @@ export async function executeCode(
   }
 
   // Use Piston API for other languages
-  return executeCodeWithPiston(code, language);
+  return executeCodeWithPiston(code, language, stdin);
 }
 
 /**
