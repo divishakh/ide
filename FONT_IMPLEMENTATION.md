@@ -2,22 +2,25 @@
 
 ## Overview
 
-The website now uses a custom font combination that emphasizes the Greek/Athena theme:
+The website now uses a cohesive Greek-inspired font combination that emphasizes the Athena theme:
 
-- **Body Text**: Roboto (clean, modern, highly readable)
+- **Body Text**: Philosopher (Greek-inspired, elegant serif)
 - **Headings**: Cinzel Decorative (Greek-style decorative font)
 
 ## Font Choices
 
-### Roboto for Body Text
+### Philosopher for Body Text
 
-**Why Roboto?**
-- Clean and modern sans-serif font
-- Excellent readability on all screen sizes
-- Wide range of weights (300, 400, 500, 700, 900)
-- Optimized for digital displays
-- Professional appearance
+**Why Philosopher?**
+- Directly inspired by Ancient Greek fonts and Agora typeface
+- Elegant serif with classical aesthetic
+- Excellent readability for body text
+- Complements decorative headings perfectly
+- Maintains the Greek/Athena theme throughout
 - Free and open-source from Google Fonts
+
+**Design Philosophy:**
+Philosopher was designed by Jovanny Lemonad and is inspired by the Agora typeface, which was used in Ancient Greece. It brings a classical, philosophical aesthetic to the text while remaining highly readable.
 
 **Usage:**
 - All body text, paragraphs, and general content
@@ -34,18 +37,33 @@ The website now uses a custom font combination that emphasizes the Greek/Athena 
 - Maintains readability while being distinctive
 - Free and open-source from Google Fonts
 
-**Note about Greek Freak:**
-The original request was for "Greek Freak by Pinisiart" for headings. However, this font is not available through public CDNs (CDN Fonts has Cloudflare protection). Cinzel Decorative was chosen as an excellent alternative because:
-- Similar Greek/classical aesthetic
-- Decorative and distinctive style
-- Readily available from Google Fonts
-- Better browser compatibility
-- Consistent loading performance
+**Design Philosophy:**
+Cinzel Decorative is based on classical Roman inscriptions, creating a perfect pairing with Philosopher for a cohesive Greek/Roman classical aesthetic.
 
 **Usage:**
 - All heading levels (h1, h2, h3, h4, h5, h6)
 - Page titles and section headers
 - Any element with `.font-heading` class
+
+## Why This Combination Works
+
+### Cohesive Greek Theme
+- **Philosopher**: Ancient Greek-inspired body font
+- **Cinzel Decorative**: Roman/Greek decorative headings
+- Both fonts share classical heritage
+- Creates unified aesthetic throughout the site
+
+### Visual Hierarchy
+- Decorative headings draw attention
+- Readable body text doesn't compete
+- Clear distinction between content types
+- Professional and elegant appearance
+
+### Readability
+- Philosopher: Excellent for extended reading
+- Cinzel Decorative: Perfect for short, impactful headings
+- Both fonts maintain clarity at various sizes
+- Serif fonts provide classical, scholarly feel
 
 ## Implementation Details
 
@@ -54,7 +72,7 @@ The original request was for "Greek Freak by Pinisiart" for headings. However, t
 Fonts are loaded via Google Fonts CDN in `src/index.css`:
 
 ```css
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Philosopher:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap');
 ```
 
@@ -64,7 +82,7 @@ In `src/index.css`:
 
 ```css
 body {
-  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'Philosopher', 'Georgia', serif;
   font-weight: 400;
 }
 
@@ -75,7 +93,7 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 }
 
 p, span, div, a, button, input, textarea, select, label {
-  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'Philosopher', 'Georgia', serif;
 }
 ```
 
@@ -85,7 +103,7 @@ In `tailwind.config.js`:
 
 ```javascript
 fontFamily: {
-  sans: ['Roboto', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+  sans: ['Philosopher', 'Georgia', 'serif'],
   mono: ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
   heading: ['Cinzel Decorative', 'Cinzel', 'serif'],
 }
@@ -93,12 +111,9 @@ fontFamily: {
 
 ## Font Weights
 
-### Roboto
-- 300: Light
+### Philosopher
 - 400: Regular (default)
-- 500: Medium
 - 700: Bold
-- 900: Black
 
 ### Cinzel Decorative
 - 400: Regular
@@ -107,14 +122,14 @@ fontFamily: {
 
 ## Usage Examples
 
-### Using Roboto (Automatic)
+### Using Philosopher (Automatic)
 
-All text automatically uses Roboto:
+All text automatically uses Philosopher:
 
 ```jsx
-<p>This text uses Roboto</p>
-<button>This button text uses Roboto</button>
-<span>This span uses Roboto</span>
+<p>This text uses Philosopher</p>
+<button>This button text uses Philosopher</button>
+<span>This span uses Philosopher</span>
 ```
 
 ### Using Cinzel Decorative (Automatic for Headings)
@@ -132,7 +147,7 @@ All headings automatically use Cinzel Decorative:
 You can also use Tailwind classes:
 
 ```jsx
-<div className="font-sans">Uses Roboto</div>
+<div className="font-sans">Uses Philosopher</div>
 <div className="font-heading">Uses Cinzel Decorative</div>
 <div className="font-mono">Uses monospace for code</div>
 ```
@@ -160,11 +175,9 @@ All headings use Cinzel Decorative with these sizes:
 
 If custom fonts fail to load, the system falls back to:
 
-**For Roboto:**
-1. -apple-system (macOS/iOS)
-2. BlinkMacSystemFont (Chrome on macOS)
-3. Segoe UI (Windows)
-4. sans-serif (system default)
+**For Philosopher:**
+1. Georgia (classic serif font)
+2. serif (system default)
 
 **For Cinzel Decorative:**
 1. Cinzel (similar but less decorative)
@@ -183,7 +196,7 @@ Both fonts are widely supported:
 ## Accessibility
 
 ### Readability
-- Roboto: Excellent readability at all sizes
+- Philosopher: Excellent readability for body text, inspired by Ancient Greek fonts
 - Cinzel Decorative: Good readability for headings, not recommended for body text
 
 ### Font Size
@@ -194,6 +207,7 @@ Both fonts are widely supported:
 ### Contrast
 - Fonts work well with both light and dark themes
 - High contrast maintained for accessibility
+- Serif fonts provide clear letter distinction
 
 ## Customization
 
@@ -217,48 +231,35 @@ To use different font weights:
 ### Mixing Fonts
 
 ```jsx
-<h1 className="font-sans">Heading with Roboto instead</h1>
+<h1 className="font-sans">Heading with Philosopher instead</h1>
 <p className="font-heading">Body text with Cinzel Decorative</p>
 ```
 
-## Alternative: Using Greek Freak Font
+## Alternative Fonts
 
-If you have access to the Greek Freak font files, you can add them manually:
+If you want to try other Greek-inspired or complementary fonts:
 
-### Step 1: Add Font Files
+### Other Greek-Style Options
 
-Place font files in `public/fonts/`:
-- `greek-freak.woff2`
-- `greek-freak.woff`
+1. **Cormorant Garamond** - Elegant serif, classical aesthetic
+   ```css
+   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap');
+   ```
 
-### Step 2: Update CSS
+2. **Spectral** - Classical serif with excellent readability
+   ```css
+   @import url('https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;500;600;700&display=swap');
+   ```
 
-In `src/index.css`:
+3. **Crimson Text** - Book-style serif, elegant
+   ```css
+   @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap');
+   ```
 
-```css
-@font-face {
-  font-family: 'Greek Freak';
-  src: url('/fonts/greek-freak.woff2') format('woff2'),
-       url('/fonts/greek-freak.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-h1, h2, h3, h4, h5, h6, .font-heading {
-  font-family: 'Greek Freak', 'Cinzel Decorative', serif;
-}
-```
-
-### Step 3: Update Tailwind Config
-
-In `tailwind.config.js`:
-
-```javascript
-fontFamily: {
-  heading: ['Greek Freak', 'Cinzel Decorative', 'serif'],
-}
-```
+4. **Lora** - Well-balanced serif with calligraphic roots
+   ```css
+   @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap');
+   ```
 
 ## Testing
 
@@ -267,7 +268,7 @@ fontFamily: {
 1. Start the app: `pnpm run dev`
 2. Check all pages for proper font rendering
 3. Verify headings use Cinzel Decorative
-4. Verify body text uses Roboto
+4. Verify body text uses Philosopher
 5. Test on different browsers
 6. Test on different screen sizes
 
@@ -277,7 +278,7 @@ Open browser console and check for font loading:
 
 ```javascript
 // Check if fonts are loaded
-document.fonts.check('1em Roboto'); // Should return true
+document.fonts.check('1em Philosopher'); // Should return true
 document.fonts.check('1em "Cinzel Decorative"'); // Should return true
 ```
 
@@ -329,14 +330,15 @@ document.fonts.check('1em "Cinzel Decorative"'); // Should return true
 
 ## Summary
 
-✅ **Roboto** for all body text - clean, modern, readable
+✅ **Philosopher** for all body text - Greek-inspired, elegant, readable
 ✅ **Cinzel Decorative** for all headings - Greek/classical aesthetic
+✅ Cohesive Greek/Athena theme throughout
 ✅ Proper fallback fonts configured
 ✅ Performance optimized with font-display: swap
 ✅ Fully accessible and responsive
 ✅ Works across all modern browsers
 
-The font implementation maintains the Greek/Athena theme while ensuring excellent readability and performance.
+The font implementation creates a unified Greek/classical aesthetic that perfectly matches the Athena theme, with both fonts sharing classical heritage while maintaining excellent readability and professional appearance.
 
 ---
 

@@ -319,10 +319,12 @@ Use the **Project Selector** dropdown at the top of the IDE:
 
 ### Typography
 
-The website uses a custom font combination:
+The website uses a cohesive Greek-inspired font combination:
 
-- **Body Text**: Roboto - Clean, modern, highly readable sans-serif
+- **Body Text**: Philosopher - Ancient Greek-inspired elegant serif
 - **Headings**: Cinzel Decorative - Greek/classical decorative font
+
+Both fonts share classical heritage, creating a unified aesthetic that perfectly matches the Athena theme.
 
 See [FONT_IMPLEMENTATION.md](./FONT_IMPLEMENTATION.md) for detailed font documentation.
 
@@ -330,7 +332,7 @@ To change fonts, edit `src/index.css`:
 
 ```css
 body {
-  font-family: 'YourFont', sans-serif;
+  font-family: 'YourFont', serif;
 }
 
 h1, h2, h3, h4, h5, h6 {

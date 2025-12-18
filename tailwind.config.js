@@ -23,7 +23,7 @@ export default {
         },
         extend: {
             fontFamily: {
-                sans: ['Roboto', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+                sans: ['Philosopher', 'Georgia', 'serif'],
                 mono: ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
                 heading: ['Cinzel Decorative', 'Cinzel', 'serif'],
             },
