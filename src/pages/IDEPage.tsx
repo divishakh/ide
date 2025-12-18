@@ -145,6 +145,53 @@ export default function IDEPage() {
     setNewItemName('');
   };
 
+  const handleNewFileFromToolbar = () => {
+    if (!selectedProject) {
+      toast({
+        title: 'No Project Selected',
+        description: 'Please select or create a project first',
+        variant: 'destructive',
+      });
+      return;
+    }
+    handleCreateFile(selectedProject.id);
+  };
+
+  const handleDownloadFile = () => {
+    if (!selectedFile) {
+      toast({
+        title: 'No File Selected',
+        description: 'Please select a file to download',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    try {
+      const blob = new Blob([code], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = selectedFile.name;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      toast({
+        title: 'Success',
+        description: `Downloaded ${selectedFile.name}`,
+      });
+    } catch (error) {
+      console.error('Failed to download file:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to download file',
+        variant: 'destructive',
+      });
+    }
+  };
+
   const handleConfirmCreate = async () => {
     if (!newItemName.trim()) {
       toast({
@@ -403,6 +450,78 @@ export default function IDEPage() {
     }
   };
 
+  const handleNewFile = () => {
+    if (!selectedProject) {
+      toast({
+        title: 'No Project Selected',
+        description: 'Please select a project first',
+        variant: 'destructive',
+      });
+      return;
+    }
+    handleCreateFile(selectedProject.id);
+  };
+
+  const handleDownloadProject = () => {
+    if (!selectedProject) {
+      toast({
+        title: 'No Project Selected',
+        description: 'Please select a project to download',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    try {
+      // Get all files for the current project
+      const projectFiles = files.filter(f => f.project_id === selectedProject.id);
+      
+      if (projectFiles.length === 0) {
+        toast({
+          title: 'No Files',
+          description: 'This project has no files to download',
+          variant: 'destructive',
+        });
+        return;
+      }
+
+      // Create a JSON structure with all project files
+      const projectData = {
+        name: selectedProject.name,
+        description: selectedProject.description,
+        files: projectFiles.map(file => ({
+          name: file.name,
+          content: file.content,
+          language: file.language,
+        })),
+        exportedAt: new Date().toISOString(),
+      };
+
+      // Create a blob and download
+      const blob = new Blob([JSON.stringify(projectData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${selectedProject.name.replace(/\s+/g, '_')}_project.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      toast({
+        title: 'Success',
+        description: 'Project downloaded successfully',
+      });
+    } catch (error) {
+      console.error('Failed to download project:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to download project',
+        variant: 'destructive',
+      });
+    }
+  };
+
   return (
     <div className="flex h-screen flex-col bg-background">
       <Header />
@@ -414,6 +533,8 @@ export default function IDEPage() {
             onClear={handleClearOutput}
             onSave={handleSave}
             onFormat={handleFormat}
+            onNewFile={handleNewFile}
+            onDownload={handleDownloadProject}
             isRunning={isRunning}
             isSaving={isSaving}
             currentFileName={selectedFile?.name}

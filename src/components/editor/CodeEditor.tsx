@@ -14,9 +14,33 @@ export function CodeEditor({ value, onChange, language = 'javascript', readOnly 
   const { theme } = useTheme();
   const editorRef = useRef<any>(null);
 
-  const handleEditorDidMount = (editor: any) => {
+  const handleEditorDidMount = (editor: any, monaco: any) => {
     editorRef.current = editor;
     editor.focus();
+
+    // Configure TypeScript/JavaScript language features for better IntelliSense
+    if (language === 'javascript' || language === 'typescript') {
+      monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
+        noSemanticValidation: false,
+        noSyntaxValidation: false,
+      });
+
+      monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
+        target: monaco.languages.typescript.ScriptTarget.ES2020,
+        allowNonTsExtensions: true,
+        moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
+        module: monaco.languages.typescript.ModuleKind.CommonJS,
+        noEmit: true,
+        esModuleInterop: true,
+        jsx: monaco.languages.typescript.JsxEmit.React,
+        reactNamespace: 'React',
+        allowJs: true,
+        typeRoots: ['node_modules/@types'],
+      });
+
+      // Add common library definitions
+      monaco.languages.typescript.javascriptDefaults.setEagerModelSync(true);
+    }
   };
 
   const handleEditorChange = (value: string | undefined) => {
@@ -45,18 +69,20 @@ export function CodeEditor({ value, onChange, language = 'javascript', readOnly 
           wordWrap: 'on',
           formatOnPaste: true,
           formatOnType: true,
-          // Enhanced IntelliSense settings
+          // Enhanced IntelliSense settings - VS Code style
           suggestOnTriggerCharacters: true,
           acceptSuggestionOnCommitCharacter: true,
           acceptSuggestionOnEnter: 'on',
           quickSuggestions: {
-            other: true,
-            comments: true,
-            strings: true,
+            other: 'on',
+            comments: 'on',
+            strings: 'on',
           },
-          quickSuggestionsDelay: 10,
+          quickSuggestionsDelay: 0, // Show immediately like VS Code
+          wordBasedSuggestions: 'matchingDocuments',
           parameterHints: {
             enabled: true,
+            cycle: true,
           },
           suggest: {
             showKeywords: true,
@@ -68,6 +94,31 @@ export function CodeEditor({ value, onChange, language = 'javascript', readOnly 
             showProperties: true,
             showValues: true,
             showConstants: true,
+            showMethods: true,
+            showConstructors: true,
+            showFields: true,
+            showInterfaces: true,
+            showStructs: true,
+            showEvents: true,
+            showOperators: true,
+            showUnits: true,
+            showTypeParameters: true,
+            showWords: true,
+            showColors: true,
+            showFiles: true,
+            showReferences: true,
+            showFolders: true,
+            showEnums: true,
+            showEnumMembers: true,
+            showIssues: true,
+            showUsers: true,
+            insertMode: 'insert',
+            filterGraceful: true,
+            snippetsPreventQuickSuggestions: false,
+            localityBonus: true,
+            shareSuggestSelections: true,
+            showInlineDetails: true,
+            showStatusBar: true,
           },
           folding: true,
           foldingStrategy: 'indentation',

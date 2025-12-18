@@ -1,11 +1,13 @@
 import { Button } from '@/components/ui/button';
-import { Play, RotateCcw, FileText, Sparkles } from 'lucide-react';
+import { Play, RotateCcw, FileText, Sparkles, Download } from 'lucide-react';
 
 interface ToolbarProps {
   onRun: () => void;
   onClear: () => void;
   onSave: () => void;
   onFormat: () => void;
+  onNewFile?: () => void;
+  onDownload?: () => void;
   isRunning?: boolean;
   isSaving?: boolean;
   currentFileName?: string;
@@ -15,6 +17,8 @@ export function Toolbar({
   onRun,
   onClear,
   onFormat,
+  onNewFile,
+  onDownload,
   isRunning = false,
 }: ToolbarProps) {
   return (
@@ -29,15 +33,17 @@ export function Toolbar({
         Run Code
       </Button>
 
-      <Button 
-        size="default" 
-        variant="outline" 
-        onClick={() => {/* Handle new file */}}
-        className="rounded-lg font-medium"
-      >
-        <FileText className="mr-2 h-4 w-4" />
-        New File
-      </Button>
+      {onNewFile && (
+        <Button 
+          size="default" 
+          variant="outline" 
+          onClick={onNewFile}
+          className="rounded-lg font-medium"
+        >
+          <FileText className="mr-2 h-4 w-4" />
+          New File
+        </Button>
+      )}
 
       <Button 
         size="default" 
@@ -58,6 +64,18 @@ export function Toolbar({
         <RotateCcw className="mr-2 h-4 w-4" />
         Clear Output
       </Button>
+
+      {onDownload && (
+        <Button 
+          size="default" 
+          variant="outline" 
+          onClick={onDownload}
+          className="rounded-lg font-medium"
+        >
+          <Download className="mr-2 h-4 w-4" />
+          Download
+        </Button>
+      )}
 
       <div className="ml-auto flex items-center gap-2">
         <div className="flex items-center gap-2 text-sm">
