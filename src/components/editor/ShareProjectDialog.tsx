@@ -197,32 +197,58 @@ export function ShareProjectDialog({
                   <button
                     type="button"
                     onClick={(e) => {
+                      console.log('View Copy button CLICKED!');
                       e.preventDefault();
                       e.stopPropagation();
                       handleCopy(viewShareUrl, 'view');
                     }}
-                    className="h-9 w-9 inline-flex items-center justify-center border border-input bg-background rounded-md hover:bg-accent hover:text-accent-foreground cursor-pointer transition-colors"
-                    style={{ pointerEvents: 'auto' }}
+                    onMouseDown={(e) => {
+                      console.log('View Copy button MOUSE DOWN!');
+                    }}
+                    onMouseUp={(e) => {
+                      console.log('View Copy button MOUSE UP!');
+                    }}
+                    onPointerDown={(e) => {
+                      console.log('View Copy button POINTER DOWN!');
+                    }}
+                    className="h-9 w-9 inline-flex items-center justify-center border-2 border-border bg-card rounded-md hover:bg-accent hover:text-accent-foreground cursor-pointer transition-colors"
+                    style={{ 
+                      pointerEvents: 'auto',
+                      position: 'relative',
+                      zIndex: 100,
+                      touchAction: 'manipulation'
+                    }}
                     title="Copy to clipboard"
                   >
-                    {copiedView ? (
-                      <Check className="h-4 w-4 text-green-600" />
-                    ) : (
-                      <Copy className="h-4 w-4" />
-                    )}
+                    <span style={{ pointerEvents: 'none' }}>
+                      {copiedView ? (
+                        <Check className="h-4 w-4 text-green-600" />
+                      ) : (
+                        <Copy className="h-4 w-4" />
+                      )}
+                    </span>
                   </button>
                 </div>
                 <button
                   type="button"
                   onClick={(e) => {
+                    console.log('View Open button CLICKED!');
                     e.preventDefault();
                     e.stopPropagation();
                     handleOpenLink(viewShareUrl);
                   }}
+                  onMouseDown={(e) => {
+                    console.log('View Open button MOUSE DOWN!');
+                  }}
                   className="w-full h-8 px-3 text-xs rounded-md hover:bg-accent hover:text-accent-foreground cursor-pointer transition-colors"
-                  style={{ pointerEvents: 'auto' }}
+                  style={{ 
+                    pointerEvents: 'auto',
+                    position: 'relative',
+                    zIndex: 100,
+                    touchAction: 'manipulation'
+                  }}
                 >
-                  Open in New Tab
+                  <span style={{ pointerEvents: 'none' }}>Open in New Tab</span>
                 </button>
               </div>
             )}
@@ -281,32 +307,58 @@ export function ShareProjectDialog({
                   <button
                     type="button"
                     onClick={(e) => {
+                      console.log('Edit Copy button CLICKED!');
                       e.preventDefault();
                       e.stopPropagation();
                       handleCopy(editShareUrl, 'edit');
                     }}
+                    onMouseDown={(e) => {
+                      console.log('Edit Copy button MOUSE DOWN!');
+                    }}
+                    onMouseUp={(e) => {
+                      console.log('Edit Copy button MOUSE UP!');
+                    }}
+                    onPointerDown={(e) => {
+                      console.log('Edit Copy button POINTER DOWN!');
+                    }}
                     className="h-9 w-9 inline-flex items-center justify-center bg-primary text-primary-foreground rounded-md hover:bg-primary/90 cursor-pointer transition-colors shadow"
-                    style={{ pointerEvents: 'auto' }}
+                    style={{ 
+                      pointerEvents: 'auto',
+                      position: 'relative',
+                      zIndex: 100,
+                      touchAction: 'manipulation'
+                    }}
                     title="Copy to clipboard"
                   >
-                    {copiedEdit ? (
-                      <Check className="h-4 w-4" />
-                    ) : (
-                      <Copy className="h-4 w-4" />
-                    )}
+                    <span style={{ pointerEvents: 'none' }}>
+                      {copiedEdit ? (
+                        <Check className="h-4 w-4" />
+                      ) : (
+                        <Copy className="h-4 w-4" />
+                      )}
+                    </span>
                   </button>
                 </div>
                 <button
                   type="button"
                   onClick={(e) => {
+                    console.log('Edit Open button CLICKED!');
                     e.preventDefault();
                     e.stopPropagation();
                     handleOpenLink(editShareUrl);
                   }}
+                  onMouseDown={(e) => {
+                    console.log('Edit Open button MOUSE DOWN!');
+                  }}
                   className="w-full h-8 px-3 text-xs rounded-md hover:bg-accent hover:text-accent-foreground cursor-pointer transition-colors"
-                  style={{ pointerEvents: 'auto' }}
+                  style={{ 
+                    pointerEvents: 'auto',
+                    position: 'relative',
+                    zIndex: 100,
+                    touchAction: 'manipulation'
+                  }}
                 >
-                  Open in New Tab
+                  <span style={{ pointerEvents: 'none' }}>Open in New Tab</span>
                 </button>
               </div>
             )}

@@ -547,14 +547,15 @@ app-8baywyxqb8xt/
 
 ### Issue: "Share links not generating" or "Buttons not clickable"
 
-**LATEST FIX APPLIED** (Most Aggressive):
-- All buttons now have 4 event handlers: onClick, onMouseDown, onMouseUp, onPointerDown
+**LATEST FIX APPLIED** (Most Aggressive - All Buttons Fixed):
+- **ALL buttons** now have 4 event handlers: onClick, onMouseDown, onMouseUp, onPointerDown
+- This includes: Generate buttons, Copy buttons, and Open in New Tab buttons
 - Extreme z-index values (9999 for dialog, 100 for buttons)
 - Explicit pointer-events on all elements
 - Modified Dialog component to ensure no blocking
-- Updated dark theme colors
+- Updated dark theme to blue-teal palette (#213448, #547792, #94B4C1, #ECEFCA)
 
-**To test:**
+**To test Generate buttons:**
 1. **MUST open browser console first** (F12)
 2. Click "Generate View-Only Link" or "Generate Edit Link"
 3. **You should see 4 console messages**:
@@ -566,6 +567,18 @@ app-8baywyxqb8xt/
 5. Button text changes to "Generating..."
 6. Link appears after a moment
 
+**To test Copy buttons:**
+1. After generating a link, click the copy button (icon next to link)
+2. **You should see 4 console messages**:
+   - "View Copy button POINTER DOWN!"
+   - "View Copy button MOUSE DOWN!"
+   - "View Copy button MOUSE UP!"
+   - "View Copy button CLICKED!"
+3. Icon changes to checkmark (✓)
+4. Toast shows "Copied to clipboard!"
+5. Press Ctrl+V to paste - link should appear
+6. See [COPY_BUTTON_FIX.md](./COPY_BUTTON_FIX.md) for detailed copy button debugging
+
 **If you see NO console messages**:
 - Something is blocking clicks from reaching the button
 - Try clicking different parts of the button
@@ -574,10 +587,10 @@ app-8baywyxqb8xt/
 - Try a different browser
 - See [AGGRESSIVE_BUTTON_FIX.md](./AGGRESSIVE_BUTTON_FIX.md) for detailed debugging
 
-**If you see SOME console messages but not all**:
-- Check which messages appear
-- This tells us exactly where the issue is
-- See AGGRESSIVE_BUTTON_FIX.md for diagnosis based on console output
+**If copy doesn't work but console shows messages**:
+- Clipboard API may require HTTPS (localhost should work)
+- Check browser permissions for clipboard access
+- Try manually selecting text in input field and pressing Ctrl+C
 
 **Database setup**:
 1. Verify `shares` table exists in Supabase
