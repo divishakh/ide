@@ -23,8 +23,9 @@ export default {
         },
         extend: {
             fontFamily: {
-                sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+                sans: ['Roboto', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
                 mono: ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
+                heading: ['Cinzel Decorative', 'Cinzel', 'serif'],
             },
             colors: {
                 border: 'hsl(var(--border))',

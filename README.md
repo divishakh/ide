@@ -317,6 +317,27 @@ Use the **Project Selector** dropdown at the top of the IDE:
 
 ## 🎨 Customization
 
+### Typography
+
+The website uses a custom font combination:
+
+- **Body Text**: Roboto - Clean, modern, highly readable sans-serif
+- **Headings**: Cinzel Decorative - Greek/classical decorative font
+
+See [FONT_IMPLEMENTATION.md](./FONT_IMPLEMENTATION.md) for detailed font documentation.
+
+To change fonts, edit `src/index.css`:
+
+```css
+body {
+  font-family: 'YourFont', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'YourHeadingFont', serif;
+}
+```
+
 ### Changing Theme Colors
 
 Edit `src/index.css` to customize the color scheme:
