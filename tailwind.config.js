@@ -22,6 +22,10 @@ export default {
             }
         },
         extend: {
+            fontFamily: {
+                sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+                mono: ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
+            },
             colors: {
                 border: 'hsl(var(--border))',
                 borderColor: {

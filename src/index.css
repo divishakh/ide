@@ -1,4 +1,6 @@
 /* stylelint-disable */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,84 +11,84 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --radius: 0.75rem;
-    /* Light mode - Purple theme */
-    --background: 270 100% 98%;
-    --foreground: 270 15% 20%;
+    --radius: 0.5rem;
+    /* Light mode - Elegant minimal theme */
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
-    --card-foreground: 270 15% 20%;
+    --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
-    --popover-foreground: 270 15% 20%;
-    --primary: 262 83% 58%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 270 60% 96%;
-    --secondary-foreground: 270 15% 20%;
-    --muted: 270 40% 95%;
-    --muted-foreground: 270 10% 50%;
-    --accent: 270 60% 94%;
-    --accent-foreground: 262 83% 58%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 270 30% 90%;
-    --input: 270 30% 90%;
-    --ring: 262 83% 58%;
-    --success: 158 64% 52%;
-    --success-foreground: 0 0% 100%;
-    --chart-1: 262 83% 58%;
-    --chart-2: 158 64% 52%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 98%;
+    --chart-1: 240 5.9% 10%;
+    --chart-2: 142 76% 36%;
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --sidebar-background: 270 60% 96%;
-    --sidebar-foreground: 270 15% 20%;
-    --sidebar-primary: 262 83% 58%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 270 70% 92%;
-    --sidebar-accent-foreground: 262 83% 58%;
-    --sidebar-border: 270 30% 88%;
-    --sidebar-ring: 262 83% 58%;
-    --console-background: 220 26% 14%;
-    --console-foreground: 210 40% 98%;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 240 5.9% 90%;
+    --sidebar-ring: 240 5.9% 10%;
+    --console-background: 240 10% 3.9%;
+    --console-foreground: 0 0% 98%;
   }
 
   .dark {
-    /* Dark mode - Deep purple/navy theme */
-    --background: 258 39% 10%;
-    --foreground: 210 40% 98%;
-    --card: 258 35% 14%;
-    --card-foreground: 210 40% 98%;
-    --popover: 258 35% 14%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 262 83% 58%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 258 30% 20%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 258 30% 18%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 258 35% 22%;
-    --accent-foreground: 262 83% 58%;
+    /* Dark mode - Natural elegant theme */
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 7%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 7%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 258 30% 22%;
-    --input: 258 30% 22%;
-    --ring: 262 83% 58%;
-    --success: 158 64% 52%;
-    --success-foreground: 0 0% 100%;
-    --chart-1: 262 83% 58%;
-    --chart-2: 158 64% 52%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 98%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
-    --sidebar-background: 258 35% 14%;
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 262 83% 58%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 258 40% 20%;
-    --sidebar-accent-foreground: 262 83% 58%;
-    --sidebar-border: 258 30% 18%;
-    --sidebar-ring: 262 83% 58%;
-    --console-background: 220 26% 14%;
-    --console-foreground: 210 40% 98%;
+    --sidebar-background: 240 10% 7%;
+    --sidebar-foreground: 240 5% 84.9%;
+    --sidebar-primary: 0 0% 98%;
+    --sidebar-primary-foreground: 240 5.9% 10%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 240 4.9% 83.9%;
+    --console-background: 240 10% 3.9%;
+    --console-foreground: 0 0% 98%;
   }
 }
 
@@ -97,5 +99,11 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
   }
 }

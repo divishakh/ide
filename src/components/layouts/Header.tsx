@@ -1,61 +1,35 @@
-import { Moon, Sun } from 'lucide-react';
+import { Code2 } from 'lucide-react';
 import { useTheme } from '@/hooks/useTheme';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 export function Header() {
   const { theme, toggleTheme } = useTheme();
+  const navigate = useNavigate();
 
   return (
-    <header className="border-b bg-card px-6 py-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          {/* Logo */}
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-purple-600 shadow-lg">
-            <svg
-              className="h-7 w-7 text-white"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 7h16M4 12h16M4 17h16"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2M8 17v2a2 2 0 002 2h4a2 2 0 002-2v-2"
-              />
-            </svg>
+    <header className="border-b bg-card/50 backdrop-blur-sm">
+      <div className="flex items-center justify-between px-6 py-3">
+        <button 
+          onClick={() => navigate('/')}
+          className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+        >
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-primary/60">
+            <Code2 className="h-5 w-5 text-primary-foreground" />
           </div>
-          
-          {/* Title and tagline */}
           <div>
-            <h1 className="text-xl font-bold text-primary">
-              Athena's Code Chambers
-            </h1>
-            <p className="text-sm text-muted-foreground flex items-center gap-1">
-              <span className="text-primary">✨</span>
-              Where wisdom meets elegant code
-            </p>
+            <h1 className="text-lg font-semibold leading-none">Athena's Code Chambers</h1>
+            <p className="text-xs text-muted-foreground">Where wisdom meets elegant code</p>
           </div>
-        </div>
-
-        {/* Theme toggle */}
+        </button>
+        
         <Button
           variant="ghost"
           size="icon"
           onClick={toggleTheme}
-          className="h-10 w-10 rounded-full"
+          className="rounded-full"
         >
-          {theme === 'dark' ? (
-            <Sun className="h-5 w-5 text-yellow-500" />
-          ) : (
-            <Moon className="h-5 w-5 text-primary" />
-          )}
+          {theme === 'dark' ? '☀️' : '🌙'}
         </Button>
       </div>
     </header>

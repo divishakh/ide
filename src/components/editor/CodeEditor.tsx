@@ -35,6 +35,7 @@ export function CodeEditor({ value, onChange, language = 'javascript', readOnly 
         options={{
           minimap: { enabled: true },
           fontSize: 14,
+          fontFamily: 'JetBrains Mono, Fira Code, Consolas, monospace',
           lineNumbers: 'on',
           roundedSelection: true,
           scrollBeyondLastLine: false,
@@ -44,8 +45,30 @@ export function CodeEditor({ value, onChange, language = 'javascript', readOnly 
           wordWrap: 'on',
           formatOnPaste: true,
           formatOnType: true,
+          // Enhanced IntelliSense settings
           suggestOnTriggerCharacters: true,
-          quickSuggestions: true,
+          acceptSuggestionOnCommitCharacter: true,
+          acceptSuggestionOnEnter: 'on',
+          quickSuggestions: {
+            other: true,
+            comments: true,
+            strings: true,
+          },
+          quickSuggestionsDelay: 10,
+          parameterHints: {
+            enabled: true,
+          },
+          suggest: {
+            showKeywords: true,
+            showSnippets: true,
+            showClasses: true,
+            showFunctions: true,
+            showVariables: true,
+            showModules: true,
+            showProperties: true,
+            showValues: true,
+            showConstants: true,
+          },
           folding: true,
           foldingStrategy: 'indentation',
           showFoldingControls: 'always',
@@ -53,6 +76,9 @@ export function CodeEditor({ value, onChange, language = 'javascript', readOnly 
           autoClosingBrackets: 'always',
           autoClosingQuotes: 'always',
           autoIndent: 'full',
+          smoothScrolling: true,
+          cursorBlinking: 'smooth',
+          cursorSmoothCaretAnimation: 'on',
         }}
         loading={
           <div className="flex h-full items-center justify-center">
