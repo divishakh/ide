@@ -10,6 +10,7 @@ export interface Project {
   id: string;
   name: string;
   description: string | null;
+  user_id?: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -49,6 +50,17 @@ export interface SharedSnippet {
   created_at: string;
   expires_at: string | null;
   view_count: number;
+}
+
+export interface Share {
+  id: string;
+  project_id: string;
+  share_token: string;
+  permission: 'view' | 'edit';
+  created_by: string;
+  created_at: string;
+  expires_at: string | null;
+  is_active: boolean;
 }
 
 export interface Language {

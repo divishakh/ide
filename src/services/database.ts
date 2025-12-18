@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/supabase';
-import type { Project, CodeFile, FileVersion, SharedSnippet } from '@/types';
+import type { Project, CodeFile, FileVersion, SharedSnippet, Share } from '@/types';
 
 // Project operations
 export const projectsApi = {
@@ -27,10 +27,20 @@ export const projectsApi = {
   },
 
   // Create a new project
-  async create(name: string, description?: string): Promise<Project> {
+  async create(name: string, description?: string, userId?: string): Promise<Project> {
+    const insertData: any = { 
+      name, 
+      description: description || null 
+    };
+    
+    // Add user_id if provided
+    if (userId) {
+      insertData.user_id = userId;
+    }
+    
     const { data, error } = await supabase
       .from('projects')
-      .insert({ name, description: description || null })
+      .insert(insertData)
       .select()
       .single();
 
@@ -292,5 +302,95 @@ export const sharingApi = {
   isExpired(snippet: SharedSnippet): boolean {
     if (!snippet.expires_at) return false;
     return new Date(snippet.expires_at) < new Date();
+  },
+};
+
+// Project shares operations
+export const sharesApi = {
+  // Create a share link for a project
+  async create(
+    projectId: string,
+    permission: 'view' | 'edit',
+    userId: string,
+    expiresInDays?: number
+  ): Promise<Share> {
+    const shareToken = crypto.randomUUID();
+    const expiresAt = expiresInDays
+      ? new Date(Date.now() + expiresInDays * 24 * 60 * 60 * 1000).toISOString()
+      : null;
+
+    const { data, error } = await supabase
+      .from('shares')
+      .insert({
+        project_id: projectId,
+        share_token: shareToken,
+        permission,
+        created_by: userId,
+        expires_at: expiresAt,
+        is_active: true,
+      })
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data;
+  },
+
+  // Get share by token
+  async getByToken(token: string): Promise<Share | null> {
+    const { data, error } = await supabase
+      .from('shares')
+      .select('*')
+      .eq('share_token', token)
+      .eq('is_active', true)
+      .maybeSingle();
+
+    if (error) throw error;
+    
+    // Check if expired
+    if (data && data.expires_at && new Date(data.expires_at) < new Date()) {
+      return null;
+    }
+    
+    return data;
+  },
+
+  // Get all shares for a project
+  async getByProject(projectId: string): Promise<Share[]> {
+    const { data, error } = await supabase
+      .from('shares')
+      .select('*')
+      .eq('project_id', projectId)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+    return Array.isArray(data) ? data : [];
+  },
+
+  // Deactivate a share
+  async deactivate(id: string): Promise<void> {
+    const { error } = await supabase
+      .from('shares')
+      .update({ is_active: false })
+      .eq('id', id);
+
+    if (error) throw error;
+  },
+
+  // Delete a share
+  async delete(id: string): Promise<void> {
+    const { error } = await supabase
+      .from('shares')
+      .delete()
+      .eq('id', id);
+
+    if (error) throw error;
+  },
+
+  // Check if share is valid
+  isValid(share: Share): boolean {
+    if (!share.is_active) return false;
+    if (share.expires_at && new Date(share.expires_at) < new Date()) return false;
+    return true;
   },
 };

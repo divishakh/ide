@@ -8,11 +8,13 @@ import { Toolbar } from '@/components/editor/Toolbar';
 import { LanguageSelector } from '@/components/editor/LanguageSelector';
 import { VersionHistory } from '@/components/editor/VersionHistory';
 import { ShareDialog } from '@/components/editor/ShareDialog';
+import { ShareProjectDialog } from '@/components/editor/ShareProjectDialog';
 import { projectsApi, filesApi, versionsApi } from '@/services/database';
 import { executeCode, getMonacoLanguage } from '@/services/codeExecution';
 import type { Project, CodeFile, ConsoleOutput } from '@/types';
 import { useToast } from '@/hooks/use-toast';
 import { useDebounce } from '@/hooks/use-debounce';
+import { useAuth } from '@/contexts/AuthContext';
 import {
   Dialog,
   DialogContent,
@@ -28,6 +30,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
 
 export default function IDEPage() {
+  const { user } = useAuth();
   const [projects, setProjects] = useState<Project[]>([]);
   const [files, setFiles] = useState<CodeFile[]>([]);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -51,6 +54,7 @@ export default function IDEPage() {
     currentName: string;
   }>({ open: false, type: 'project', id: '', currentName: '' });
   const [renameName, setRenameName] = useState('');
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [userInput, setUserInput] = useState('');
   const [inputHistory, setInputHistory] = useState<string[]>([]);
 
@@ -214,7 +218,11 @@ export default function IDEPage() {
 
     try {
       if (createDialog.type === 'project') {
-        const newProject = await projectsApi.create(newItemName, newProjectDesc || undefined);
+        const newProject = await projectsApi.create(
+          newItemName, 
+          newProjectDesc || undefined,
+          user?.id
+        );
         setProjects([newProject, ...projects]);
         setSelectedProject(newProject);
         toast({
@@ -630,6 +638,7 @@ export default function IDEPage() {
             onFormat={handleFormat}
             onNewFile={handleNewFile}
             onDownload={handleDownloadProject}
+            onShare={selectedProject ? () => setShareDialogOpen(true) : undefined}
             isRunning={isRunning}
             isSaving={isSaving}
             currentFileName={selectedFile?.name}
@@ -831,6 +840,16 @@ export default function IDEPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Share Project Dialog */}
+      {selectedProject && (
+        <ShareProjectDialog
+          projectId={selectedProject.id}
+          projectName={selectedProject.name}
+          open={shareDialogOpen}
+          onOpenChange={setShareDialogOpen}
+        />
+      )}
     </div>
   );
 }

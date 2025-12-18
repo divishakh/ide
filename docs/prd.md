@@ -7,23 +7,25 @@ A browser-based online code editing and execution environment that provides user
 
 ## 3. Core Features
 \n### 3.1 Landing Page
-- A welcoming home page that introduces the platform\n- Clear call-to-action buttons for 'Sign In' and 'Log In'
+- A welcoming home page that introduces the platform\n- Use the provided image (image.png) as the hero visual on the home page to create an aesthetic, immersive experience
+- Adjust the color tones of image.png dynamically to match light mode and dark mode themes
+- Display the provided logo (image-2.png) prominently in the header or branding area
+- Clear call-to-action buttons for 'Sign Up' and 'Log In'
 - Brief overview of key features and benefits
 - Smooth transition to the main editor interface after authentication
 
 ### 3.2 User Authentication
-- Sign In functionality for new users to create accounts
+- **Mandatory Sign Up/Log In before starting work**: Users must authenticate before accessing the editor
+- Sign Up functionality for new users to create accounts
 - Log In functionality for existing users\n- Secure authentication flow\n- Session management to maintain user state
-
-### 3.3 Code Editor\n- Support for code input, editing, and advanced syntax highlighting
+\n### 3.3 Code Editor
+- Support for code input, editing, and advanced syntax highlighting
 - Implemented using Monaco Editor for VS Code-like experience
 - Real-time code auto-completion suggestions while typing
 - IntelliSense-style code hints and parameter information
 - Snippet suggestions based on language context
-
-### 3.4 Input and Output Handling
-- Separate dedicated section for user input
-- Separate dedicated section for displaying code output
+\n### 3.4 Input and Output Handling
+- Separate dedicated section for user input\n- Separate dedicated section for displaying code output
 - Interactive input area that appears when code execution requires user input
 - Clear visual distinction between input and output sections
 - Support for multiple input requests during single execution
@@ -40,12 +42,12 @@ A browser-based online code editing and execution environment that provides user
 - Simple file list or file tree navigation
 - File metadata display (language type, last modified)\n- **Rename functionality for both projects and individual files**
 - Right-click or dedicated button to trigger rename action
-
-### 3.7 Project Management
+\n### 3.7 Project Management
 - Create new projects via plus button with proper save functionality
 - **Fix: Ensure new projects are properly created and saved when clicking plus button**
 - **Rename projects** with intuitive interface (double-click or context menu)
 - **Download entire project** to local computer as a zip file or folder structure
+- **Project dropdown menu**: Clicking the project dropdown displays all existing projects for easy navigation and switching
 - Project list with clear visual indicators\n- Project switching without losing unsaved work
 
 ### 3.8 Editor Controls
@@ -67,12 +69,15 @@ A browser-based online code editing and execution environment that provides user
 
 ### 4.4 Enhanced Theme Switching
 - Refined dark mode with carefully balanced contrast and colors
-- Light mode option\n- Custom theme support
-- Smooth theme transitions
+- Light mode option\n- Custom theme support\n- Smooth theme transitions
 
 ### 4.5 Shareable Snippet Links
 - Generate unique URLs so users can easily share their code with others
-\n### 4.6 Real-Time Collaboration
+- **Two sharing modes**:
+  + **Editable Link**: Recipients can edit the code, and changes are visible in the original code (real-time synchronization)
+  + **View-Only Link**: Recipients can only view the code without editing permissions\n- Clear UI options to select sharing mode when generating the link
+
+### 4.6 Real-Time Collaboration
 - Allow multiple users to edit the same file simultaneously
 - Requires authentication and WebSockets/CRDT libraries (such as Yjs)
 \n### 4.7 Application Deployment
@@ -80,8 +85,9 @@ A browser-based online code editing and execution environment that provides user
 \n## 5. Design Style
 
 ### 5.1 Visual Reference
-- Frontend design reference: https://www.figma.com/make/DbGBkS3rAILpaGu4FqR3R7/Online-Coding-Environment?t=CFldPgqM63UilNRX-1\n- Additional inspiration from unseen.co for elegant, refined aesthetics
-- Reference images: image.png and image-2.png for layout and styling guidance
+- Frontend design reference: https://www.figma.com/make/DbGBkS3rAILpaGu4FqR3R7/Online-Coding-Environment?t=CFldPgqM63UilNRX-1
+- Additional inspiration from unseen.co for elegant, refined aesthetics
+- Reference images: image.png (for home page hero visual) and image-2.png (for website logo)
 - **Design must not appear AI-generated; focus on handcrafted, human-centered details**
 
 ### 5.2 Typography
@@ -96,14 +102,15 @@ A browser-based online code editing and execution environment that provides user
 - Soft, warm tones with gentle contrast for comfortable daytime use
 - Use lighter shades for backgrounds and progressively darker shades for interactive elements
 - Maintain readability with sufficient contrast for text and code
+- Adjust the color tones of image.png to harmonize with the light mode palette
 
 #### Dark Mode Palette
 - Primary colors: #360185, #8F0177, #DE1A58, #F4B342
 - Rich, vibrant gradient from deep purples to warm accent tones
-- Deep purple (#360185) for primary backgrounds
-- Magenta and pink tones (#8F0177, #DE1A58) for interactive elements and highlights
+- Deep purple (#360185) for primary backgrounds\n- Magenta and pink tones (#8F0177, #DE1A58) for interactive elements and highlights
 - Golden accent (#F4B342) for status indicators and call-to-action elements
 - Balanced contrast to reduce eye strain during extended coding sessions
+- Adjust the color tones of image.png to harmonize with the dark mode palette
 
 ### 5.4 Layout and Composition
 - Clean, spacious layout with clear visual hierarchy
@@ -119,6 +126,7 @@ A browser-based online code editing and execution environment that provides user
 - Clear visual feedback for all user actions
 - Professional loading states and transitions
 - Context menus for rename and download actions
+- Dropdown menu for project selection with smooth transitions
 
 ### 5.6 Overall Aesthetic
 - Premium, handcrafted appearance that avoids AI-generated look
@@ -127,3 +135,4 @@ A browser-based online code editing and execution environment that provides user
 - Modern, elegant interface inspired by high-end web applications like unseen.co
 - Natural, human-centered design language with organic transitions and thoughtful interactions
 - Unique visual personality that feels intentionally designed rather than template-based
+- Use of provided logo (image-2.png) and hero image (image.png) to reinforce brand identity and aesthetic appeal

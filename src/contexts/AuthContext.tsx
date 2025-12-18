@@ -4,9 +4,12 @@ import type { User } from '@supabase/supabase-js';
 
 interface Profile {
   id: string;
-  username?: string;
-  avatar_url?: string;
+  username: string;
+  email?: string;
+  phone?: string;
+  role: 'user' | 'admin';
   created_at?: string;
+  updated_at?: string;
 }
 
 export async function getProfile(userId: string): Promise<Profile | null> {
