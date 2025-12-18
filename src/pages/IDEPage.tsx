@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { Header } from '@/components/layouts/Header';
 import { FileTree } from '@/components/editor/FileTree';
 import { CodeEditor } from '@/components/editor/CodeEditor';
 import { OutputPanel } from '@/components/editor/OutputPanel';
@@ -403,19 +404,23 @@ export default function IDEPage() {
   };
 
   return (
-    <div className="flex h-screen flex-col">
-      <div className="flex items-center justify-between border-b bg-card px-4 py-2">
-        <Toolbar
-          onRun={handleRunCode}
-          onClear={handleClearOutput}
-          onSave={handleSave}
-          onFormat={handleFormat}
-          isRunning={isRunning}
-          isSaving={isSaving}
-          currentFileName={selectedFile?.name}
-        />
+    <div className="flex h-screen flex-col bg-background">
+      <Header />
+      
+      <div className="flex items-center justify-between border-b bg-card">
+        <div className="flex-1">
+          <Toolbar
+            onRun={handleRunCode}
+            onClear={handleClearOutput}
+            onSave={handleSave}
+            onFormat={handleFormat}
+            isRunning={isRunning}
+            isSaving={isSaving}
+            currentFileName={selectedFile?.name}
+          />
+        </div>
         
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 px-4">
           {selectedFile && (
             <>
               <LanguageSelector
@@ -435,6 +440,10 @@ export default function IDEPage() {
               />
             </>
           )}
+          <div className="ml-2 flex items-center gap-2 text-sm border-l pl-4">
+            <div className="h-2 w-2 rounded-full bg-success animate-pulse" />
+            <span className="text-muted-foreground font-medium">Auto-save enabled</span>
+          </div>
         </div>
       </div>
 
@@ -457,21 +466,45 @@ export default function IDEPage() {
         <ResizableHandle />
 
         <ResizablePanel defaultSize={50} minSize={30}>
-          <div className="h-full bg-background">
-            {selectedFile ? (
-              <CodeEditor 
-                value={code} 
-                onChange={setCode} 
-                language={getMonacoLanguage(language)} 
-              />
-            ) : (
-              <div className="flex h-full items-center justify-center text-muted-foreground">
-                <div className="text-center">
-                  <p className="text-lg font-semibold">Welcome to Athena's Code Chambers</p>
-                  <p className="mt-2 text-sm">Select a file to start coding</p>
+          <div className="flex h-full flex-col">
+            {selectedFile && (
+              <div className="flex items-center gap-2 border-b bg-card px-4 py-2">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
+                  <svg className="h-4 w-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                  </svg>
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-semibold">{selectedFile.name}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {language.charAt(0).toUpperCase() + language.slice(1)} • Monaco Editor
+                  </p>
                 </div>
               </div>
             )}
+            <div className="flex-1 bg-background">
+              {selectedFile ? (
+                <CodeEditor 
+                  value={code} 
+                  onChange={setCode} 
+                  language={getMonacoLanguage(language)} 
+                />
+              ) : (
+                <div className="flex h-full items-center justify-center text-muted-foreground">
+                  <div className="text-center">
+                    <div className="mb-4 flex justify-center">
+                      <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10">
+                        <svg className="h-8 w-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                        </svg>
+                      </div>
+                    </div>
+                    <p className="text-lg font-semibold">Welcome to Athena's Code Chambers</p>
+                    <p className="mt-2 text-sm">Select a file to start coding</p>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </ResizablePanel>
 

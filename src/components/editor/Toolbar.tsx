@@ -1,7 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Play, RotateCcw, Save, Sparkles, Moon, Sun } from 'lucide-react';
-import { useTheme } from '@/hooks/useTheme';
-import { Separator } from '@/components/ui/separator';
+import { Play, RotateCcw, FileText, Sparkles } from 'lucide-react';
 
 interface ToolbarProps {
   onRun: () => void;
@@ -16,64 +14,56 @@ interface ToolbarProps {
 export function Toolbar({
   onRun,
   onClear,
-  onSave,
   onFormat,
   isRunning = false,
-  isSaving = false,
-  currentFileName,
 }: ToolbarProps) {
-  const { theme, toggleTheme } = useTheme();
-
   return (
-    <div className="flex items-center justify-between border-b border-border bg-card px-4 py-2">
-      <div className="flex items-center gap-2">
-        <div className="flex items-center gap-2">
-          <Sparkles className="h-5 w-5 text-secondary" />
-          <h1 className="text-lg font-bold text-foreground">Athena's Code Chambers</h1>
+    <div className="flex items-center gap-3 border-b bg-card px-6 py-3">
+      <Button
+        size="default"
+        onClick={onRun}
+        disabled={isRunning}
+        className="bg-success text-success-foreground hover:bg-success/90 font-medium rounded-lg px-6"
+      >
+        <Play className="mr-2 h-4 w-4 fill-current" />
+        Run Code
+      </Button>
+
+      <Button 
+        size="default" 
+        variant="outline" 
+        onClick={() => {/* Handle new file */}}
+        className="rounded-lg font-medium"
+      >
+        <FileText className="mr-2 h-4 w-4" />
+        New File
+      </Button>
+
+      <Button 
+        size="default" 
+        variant="outline" 
+        onClick={onFormat}
+        className="rounded-lg font-medium"
+      >
+        <Sparkles className="mr-2 h-4 w-4" />
+        Format
+      </Button>
+
+      <Button 
+        size="default" 
+        variant="outline" 
+        onClick={onClear}
+        className="rounded-lg font-medium"
+      >
+        <RotateCcw className="mr-2 h-4 w-4" />
+        Clear Output
+      </Button>
+
+      <div className="ml-auto flex items-center gap-2">
+        <div className="flex items-center gap-2 text-sm">
+          <div className="h-2 w-2 rounded-full bg-success animate-pulse" />
+          <span className="text-muted-foreground font-medium">Ready</span>
         </div>
-        {currentFileName && (
-          <>
-            <Separator orientation="vertical" className="h-6" />
-            <span className="text-sm text-muted-foreground">{currentFileName}</span>
-          </>
-        )}
-      </div>
-
-      <div className="flex items-center gap-2">
-        <Button
-          size="sm"
-          onClick={onRun}
-          disabled={isRunning}
-          className="bg-primary text-primary-foreground hover:bg-primary/90"
-        >
-          <Play className="mr-2 h-4 w-4" />
-          Run Code
-        </Button>
-
-        <Button size="sm" variant="outline" onClick={onFormat}>
-          <Sparkles className="mr-2 h-4 w-4" />
-          Format
-        </Button>
-
-        <Button size="sm" variant="outline" onClick={onSave} disabled={isSaving}>
-          <Save className="mr-2 h-4 w-4" />
-          {isSaving ? 'Saving...' : 'Save'}
-        </Button>
-
-        <Button size="sm" variant="outline" onClick={onClear}>
-          <RotateCcw className="mr-2 h-4 w-4" />
-          Clear Output
-        </Button>
-
-        <Separator orientation="vertical" className="h-6" />
-
-        <Button size="sm" variant="ghost" onClick={toggleTheme}>
-          {theme === 'dark' ? (
-            <Sun className="h-4 w-4" />
-          ) : (
-            <Moon className="h-4 w-4" />
-          )}
-        </Button>
       </div>
     </div>
   );

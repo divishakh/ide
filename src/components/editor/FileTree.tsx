@@ -71,62 +71,57 @@ export function FileTree({
     setDeleteDialog(null);
   };
 
+  const totalFiles = files.length;
+
   return (
     <>
-      <div className="flex h-full flex-col bg-sidebar">
-        <div className="flex items-center justify-between border-b border-sidebar-border p-4">
-          <h2 className="text-sm font-semibold text-sidebar-foreground">Projects</h2>
+      <div className="flex h-full flex-col bg-sidebar-background">
+        <div className="flex items-center justify-between px-4 py-3">
+          <h2 className="text-sm font-semibold text-primary uppercase tracking-wide flex items-center gap-2">
+            <Folder className="h-4 w-4" />
+            FILES
+          </h2>
           <Button
             size="sm"
             variant="ghost"
             onClick={onCreateProject}
-            className="h-7 w-7 p-0 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+            className="h-8 w-8 p-0 rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
           >
             <Plus className="h-4 w-4" />
           </Button>
         </div>
 
-        <ScrollArea className="flex-1">
-          <div className="p-2">
+        <ScrollArea className="flex-1 px-3">
+          <div className="space-y-1 pb-4">
             {projects.map((project) => {
               const isExpanded = expandedProjects.has(project.id);
               const projectFiles = files.filter((f) => f.project_id === project.id);
-              const isSelected = selectedProjectId === project.id;
 
               return (
-                <div key={project.id} className="mb-1">
-                  <div
-                    className={cn(
-                      'group flex items-center justify-between rounded-md px-2 py-1.5 text-sm hover:bg-sidebar-accent',
-                      isSelected && 'bg-sidebar-accent'
-                    )}
-                  >
-                    <button
-                      onClick={() => {
-                        toggleProject(project.id);
-                        onSelectProject(project);
-                      }}
-                      className="flex flex-1 items-center gap-2 text-sidebar-foreground"
-                    >
-                      {isExpanded ? (
-                        <FolderOpen className="h-4 w-4 text-sidebar-primary" />
-                      ) : (
-                        <Folder className="h-4 w-4 text-sidebar-primary" />
+                <div key={project.id}>
+                  {projectFiles.map((file) => (
+                    <div
+                      key={file.id}
+                      className={cn(
+                        'group flex items-center justify-between rounded-xl px-3 py-2.5 text-sm cursor-pointer transition-all',
+                        selectedFileId === file.id 
+                          ? 'bg-sidebar-accent text-sidebar-accent-foreground' 
+                          : 'hover:bg-sidebar-accent/50 text-sidebar-foreground'
                       )}
-                      <span className="truncate">{project.name}</span>
-                    </button>
-                    <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100">
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onCreateFile(project.id);
-                        }}
-                        className="h-6 w-6 p-0 text-sidebar-foreground hover:bg-sidebar-accent-foreground/10"
-                      >
-                        <Plus className="h-3 w-3" />
-                      </Button>
+                      onClick={() => {
+                        onSelectFile(file);
+                        onSelectProject(project);
+                        if (!expandedProjects.has(project.id)) {
+                          toggleProject(project.id);
+                        }
+                      }}
+                    >
+                      <div className="flex items-center gap-3 flex-1 min-w-0">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 shrink-0">
+                          <File className="h-4 w-4 text-primary" />
+                        </div>
+                        <span className="truncate font-medium">{file.name}</span>
+                      </div>
                       <Button
                         size="sm"
                         variant="ghost"
@@ -134,60 +129,28 @@ export function FileTree({
                           e.stopPropagation();
                           setDeleteDialog({
                             open: true,
-                            type: 'project',
-                            id: project.id,
-                            name: project.name,
+                            type: 'file',
+                            id: file.id,
+                            name: file.name,
                           });
                         }}
-                        className="h-6 w-6 p-0 text-sidebar-foreground hover:bg-destructive hover:text-destructive-foreground"
+                        className="h-7 w-7 p-0 opacity-0 group-hover:opacity-100 hover:bg-destructive hover:text-destructive-foreground shrink-0"
                       >
-                        <Trash2 className="h-3 w-3" />
+                        <Trash2 className="h-3.5 w-3.5" />
                       </Button>
                     </div>
-                  </div>
-
-                  {isExpanded && (
-                    <div className="ml-4 mt-1 space-y-0.5">
-                      {projectFiles.map((file) => (
-                        <div
-                          key={file.id}
-                          className={cn(
-                            'group flex items-center justify-between rounded-md px-2 py-1.5 text-sm hover:bg-sidebar-accent',
-                            selectedFileId === file.id && 'bg-sidebar-accent'
-                          )}
-                        >
-                          <button
-                            onClick={() => onSelectFile(file)}
-                            className="flex flex-1 items-center gap-2 text-sidebar-foreground"
-                          >
-                            <File className="h-3.5 w-3.5" />
-                            <span className="truncate">{file.name}</span>
-                          </button>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setDeleteDialog({
-                                open: true,
-                                type: 'file',
-                                id: file.id,
-                                name: file.name,
-                              });
-                            }}
-                            className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 text-sidebar-foreground hover:bg-destructive hover:text-destructive-foreground"
-                          >
-                            <Trash2 className="h-3 w-3" />
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                  ))}
                 </div>
               );
             })}
           </div>
         </ScrollArea>
+
+        <div className="border-t border-sidebar-border px-4 py-3">
+          <p className="text-xs text-muted-foreground">
+            {totalFiles} file{totalFiles !== 1 ? 's' : ''}
+          </p>
+        </div>
       </div>
 
       <AlertDialog open={deleteDialog?.open} onOpenChange={(open) => !open && setDeleteDialog(null)}>
