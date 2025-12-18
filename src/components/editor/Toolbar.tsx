@@ -22,12 +22,12 @@ export function Toolbar({
   isRunning = false,
 }: ToolbarProps) {
   return (
-    <div className="flex items-center gap-3 border-b bg-card px-6 py-3">
+    <div className="flex items-center gap-3 border-b bg-card px-6 py-3 shadow-organic">
       <Button
         size="default"
         onClick={onRun}
         disabled={isRunning}
-        className="bg-success text-success-foreground hover:bg-success/90 font-medium rounded-lg px-6"
+        className="bg-success text-success-foreground hover:bg-success/90 font-medium rounded-lg px-6 shadow-organic hover:shadow-organic-lg transition-smooth hover:scale-105"
       >
         <Play className="mr-2 h-4 w-4 fill-current" />
         Run Code
@@ -38,7 +38,7 @@ export function Toolbar({
           size="default" 
           variant="outline" 
           onClick={onNewFile}
-          className="rounded-lg font-medium"
+          className="rounded-lg font-medium transition-smooth hover:shadow-organic"
         >
           <FileText className="mr-2 h-4 w-4" />
           New File
@@ -49,7 +49,7 @@ export function Toolbar({
         size="default" 
         variant="outline" 
         onClick={onFormat}
-        className="rounded-lg font-medium"
+        className="rounded-lg font-medium transition-smooth hover:shadow-organic"
       >
         <Sparkles className="mr-2 h-4 w-4" />
         Format
@@ -59,7 +59,7 @@ export function Toolbar({
         size="default" 
         variant="outline" 
         onClick={onClear}
-        className="rounded-lg font-medium"
+        className="rounded-lg font-medium transition-smooth hover:shadow-organic"
       >
         <RotateCcw className="mr-2 h-4 w-4" />
         Clear Output
@@ -70,7 +70,7 @@ export function Toolbar({
           size="default" 
           variant="outline" 
           onClick={onDownload}
-          className="rounded-lg font-medium"
+          className="rounded-lg font-medium transition-smooth hover:shadow-organic"
         >
           <Download className="mr-2 h-4 w-4" />
           Download
@@ -79,7 +79,7 @@ export function Toolbar({
 
       <div className="ml-auto flex items-center gap-2">
         <div className="flex items-center gap-2 text-sm">
-          <div className="h-2 w-2 rounded-full bg-success animate-pulse" />
+          <div className="h-2 w-2 rounded-full bg-success animate-pulse shadow-organic" />
           <span className="text-muted-foreground font-medium">Ready</span>
         </div>
       </div>

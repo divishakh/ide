@@ -3,6 +3,7 @@ import { Header } from '@/components/layouts/Header';
 import { FileTree } from '@/components/editor/FileTree';
 import { CodeEditor } from '@/components/editor/CodeEditor';
 import { OutputPanel } from '@/components/editor/OutputPanel';
+import { InputPanel } from '@/components/editor/InputPanel';
 import { Toolbar } from '@/components/editor/Toolbar';
 import { LanguageSelector } from '@/components/editor/LanguageSelector';
 import { VersionHistory } from '@/components/editor/VersionHistory';
@@ -43,6 +44,15 @@ export default function IDEPage() {
   }>({ open: false, type: 'project' });
   const [newItemName, setNewItemName] = useState('');
   const [newProjectDesc, setNewProjectDesc] = useState('');
+  const [renameDialog, setRenameDialog] = useState<{
+    open: boolean;
+    type: 'project' | 'file';
+    id: string;
+    currentName: string;
+  }>({ open: false, type: 'project', id: '', currentName: '' });
+  const [renameName, setRenameName] = useState('');
+  const [userInput, setUserInput] = useState('');
+  const [inputHistory, setInputHistory] = useState<string[]>([]);
 
   const { toast } = useToast();
   const debouncedCode = useDebounce(code, 1000);
@@ -245,6 +255,8 @@ export default function IDEPage() {
         });
       }
       setCreateDialog({ open: false, type: 'project' });
+      setNewItemName('');
+      setNewProjectDesc('');
     } catch (error) {
       console.error('Failed to create:', error);
       toast({
@@ -296,6 +308,73 @@ export default function IDEPage() {
       toast({
         title: 'Error',
         description: 'Failed to delete project',
+        variant: 'destructive',
+      });
+    }
+  };
+
+  const handleRenameProject = (projectId: string, currentName: string) => {
+    setRenameDialog({
+      open: true,
+      type: 'project',
+      id: projectId,
+      currentName,
+    });
+    setRenameName(currentName);
+  };
+
+  const handleRenameFile = (fileId: string, currentName: string) => {
+    setRenameDialog({
+      open: true,
+      type: 'file',
+      id: fileId,
+      currentName,
+    });
+    setRenameName(currentName);
+  };
+
+  const handleConfirmRename = async () => {
+    if (!renameName.trim()) {
+      toast({
+        title: 'Error',
+        description: 'Name cannot be empty',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    try {
+      if (renameDialog.type === 'project') {
+        await projectsApi.update(renameDialog.id, { name: renameName });
+        setProjects(projects.map(p => 
+          p.id === renameDialog.id ? { ...p, name: renameName } : p
+        ));
+        if (selectedProject?.id === renameDialog.id) {
+          setSelectedProject({ ...selectedProject, name: renameName });
+        }
+        toast({
+          title: 'Success',
+          description: 'Project renamed successfully',
+        });
+      } else {
+        await filesApi.update(renameDialog.id, { name: renameName });
+        setFiles(files.map(f => 
+          f.id === renameDialog.id ? { ...f, name: renameName } : f
+        ));
+        if (selectedFile?.id === renameDialog.id) {
+          setSelectedFile({ ...selectedFile, name: renameName });
+        }
+        toast({
+          title: 'Success',
+          description: 'File renamed successfully',
+        });
+      }
+      setRenameDialog({ open: false, type: 'project', id: '', currentName: '' });
+    } catch (error) {
+      console.error('Failed to rename:', error);
+      toast({
+        title: 'Error',
+        description: `Failed to rename ${renameDialog.type}`,
         variant: 'destructive',
       });
     }
@@ -378,6 +457,22 @@ export default function IDEPage() {
 
   const handleClearOutput = () => {
     setOutputs([]);
+  };
+
+  const handleSendInput = (input: string) => {
+    setInputHistory([...inputHistory, input]);
+    setOutputs([...outputs, {
+      type: 'info',
+      message: `📥 Input: ${input}`,
+      timestamp: Date.now(),
+    }]);
+    // Store input for code execution
+    setUserInput(input);
+  };
+
+  const handleClearInput = () => {
+    setUserInput('');
+    setInputHistory([]);
   };
 
   const handleLanguageChange = async (newLanguage: string) => {
@@ -577,6 +672,8 @@ export default function IDEPage() {
             onCreateProject={handleCreateProject}
             onDeleteFile={handleDeleteFile}
             onDeleteProject={handleDeleteProject}
+            onRenameFile={handleRenameFile}
+            onRenameProject={handleRenameProject}
           />
         </ResizablePanel>
 
@@ -636,7 +733,21 @@ export default function IDEPage() {
         <ResizableHandle />
 
         <ResizablePanel defaultSize={30} minSize={20}>
-          <OutputPanel outputs={outputs} onClear={handleClearOutput} />
+          <ResizablePanelGroup direction="vertical">
+            <ResizablePanel defaultSize={50} minSize={30}>
+              <InputPanel 
+                onSendInput={handleSendInput}
+                onClear={handleClearInput}
+                placeholder="Enter input for your code (e.g., for prompt() or stdin)..."
+              />
+            </ResizablePanel>
+            
+            <ResizableHandle />
+            
+            <ResizablePanel defaultSize={50} minSize={30}>
+              <OutputPanel outputs={outputs} onClear={handleClearOutput} />
+            </ResizablePanel>
+          </ResizablePanelGroup>
         </ResizablePanel>
       </ResizablePanelGroup>
 
@@ -682,6 +793,41 @@ export default function IDEPage() {
               Cancel
             </Button>
             <Button onClick={handleConfirmCreate}>Create</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={renameDialog.open} onOpenChange={(open) => setRenameDialog({ ...renameDialog, open })}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              Rename {renameDialog.type === 'project' ? 'Project' : 'File'}
+            </DialogTitle>
+            <DialogDescription>
+              Enter a new name for "{renameDialog.currentName}".
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="rename-name">Name</Label>
+              <Input
+                id="rename-name"
+                value={renameName}
+                onChange={(e) => setRenameName(e.target.value)}
+                placeholder={`Enter ${renameDialog.type} name`}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleConfirmRename();
+                  }
+                }}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setRenameDialog({ ...renameDialog, open: false })}>
+              Cancel
+            </Button>
+            <Button onClick={handleConfirmRename}>Rename</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

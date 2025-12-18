@@ -1,14 +1,12 @@
 # Athena's Code Chambers Requirements Document
 
 ## 1. Website Name
-Athena's Code Chambers
-
+Athena's Code Chambers\n
 ## 2. Website Description
 A browser-based online code editing and execution environment that provides users with a streamlined platform for writing, testing, and learning code. Inspired by Athena, the goddess of wisdom, it aims to help users clearly construct and refine their code logic with an elegant and intuitive interface.
 
 ## 3. Core Features
-
-### 3.1 Landing Page
+\n### 3.1 Landing Page
 - A welcoming home page that introduces the platform\n- Clear call-to-action buttons for 'Sign In' and 'Log In'
 - Brief overview of key features and benefits
 - Smooth transition to the main editor interface after authentication
@@ -23,23 +21,34 @@ A browser-based online code editing and execution environment that provides user
 - IntelliSense-style code hints and parameter information
 - Snippet suggestions based on language context
 
-### 3.4 Input Handling
-- Interactive input prompt box that appears when code execution requires user input
-- Similar to VS Code's input behavior during runtime
-- Clear visual indication when input is needed
+### 3.4 Input and Output Handling
+- Separate dedicated section for user input
+- Separate dedicated section for displaying code output
+- Interactive input area that appears when code execution requires user input
+- Clear visual distinction between input and output sections
 - Support for multiple input requests during single execution
+- Real-time output display as code executes
 
 ### 3.5 Code Execution
-- Users can run code and view output results
+- Users can run code and view output results in dedicated output section
 - Default support for JavaScript (runs directly in the browser)
-- Real-time output display in console area
+- Real-time output display separated from input area
 \n### 3.6 File Management
 - Support for creating, saving, loading, and deleting code files
 - Automatic file extension detection and assignment based on language type
 - Correct file extensions applied when saving (.js for JavaScript, .py for Python, etc.)
 - Simple file list or file tree navigation
-- File metadata display (language type, last modified)\n
-### 3.7 Editor Controls
+- File metadata display (language type, last modified)\n- **Rename functionality for both projects and individual files**
+- Right-click or dedicated button to trigger rename action
+
+### 3.7 Project Management
+- Create new projects via plus button with proper save functionality
+- **Fix: Ensure new projects are properly created and saved when clicking plus button**
+- **Rename projects** with intuitive interface (double-click or context menu)
+- **Download entire project** to local computer as a zip file or folder structure
+- Project list with clear visual indicators\n- Project switching without losing unsaved work
+
+### 3.8 Editor Controls
 - Clear editor content\n- Reset output area
 - Code formatting functionality\n- New File creation
 - Format code button
@@ -66,14 +75,14 @@ A browser-based online code editing and execution environment that provides user
 \n### 4.6 Real-Time Collaboration
 - Allow multiple users to edit the same file simultaneously
 - Requires authentication and WebSockets/CRDT libraries (such as Yjs)
-
-### 4.7 Application Deployment
+\n### 4.7 Application Deployment
 - Deploy the IDE so it is accessible through a public URL
 \n## 5. Design Style
 
 ### 5.1 Visual Reference
 - Frontend design reference: https://www.figma.com/make/DbGBkS3rAILpaGu4FqR3R7/Online-Coding-Environment?t=CFldPgqM63UilNRX-1\n- Additional inspiration from unseen.co for elegant, refined aesthetics
 - Reference images: image.png and image-2.png for layout and styling guidance
+- **Design must not appear AI-generated; focus on handcrafted, human-centered details**
 
 ### 5.2 Typography
 - Modern, professional font family with excellent code readability
@@ -82,27 +91,39 @@ A browser-based online code editing and execution environment that provides user
 - Optimized line-height and letter-spacing for extended coding sessions
 
 ### 5.3 Color Scheme
-- Sophisticated dark mode with deep purples, blues, and balanced contrast
-- Avoid harsh blacks and whites; use softer tones for reduced eye strain
-- Accent colors (greens, purples) for interactive elements and status indicators
-- Subtle gradients and color transitions for depth
+\n#### Light Mode Palette
+- Primary colors: #FCF8F8, #FBEFEF, #F9DFDF, #F5AFAF
+- Soft, warm tones with gentle contrast for comfortable daytime use
+- Use lighter shades for backgrounds and progressively darker shades for interactive elements
+- Maintain readability with sufficient contrast for text and code
+
+#### Dark Mode Palette
+- Primary colors: #360185, #8F0177, #DE1A58, #F4B342
+- Rich, vibrant gradient from deep purples to warm accent tones
+- Deep purple (#360185) for primary backgrounds
+- Magenta and pink tones (#8F0177, #DE1A58) for interactive elements and highlights
+- Golden accent (#F4B342) for status indicators and call-to-action elements
+- Balanced contrast to reduce eye strain during extended coding sessions
 
 ### 5.4 Layout and Composition
 - Clean, spacious layout with clear visual hierarchy
 - Generous whitespace and breathing room between elements
 - Smooth rounded corners on cards, buttons, and panels
 - Elegant shadows and depth layers for dimensional feel
-- Responsive grid system that adapts gracefully\n
+- Responsive grid system that adapts gracefully\n- **Distinct separation between input section and output section**
+
 ### 5.5 Interactive Elements
 - Smooth micro-animations on hover and click states
 - Polished button styles with subtle effects
 - Refined input fields and form controls
 - Clear visual feedback for all user actions
 - Professional loading states and transitions
+- Context menus for rename and download actions
 
 ### 5.6 Overall Aesthetic
-- Premium, handcrafted appearance that doesn't look AI-generated
+- Premium, handcrafted appearance that avoids AI-generated look
 - Attention to detail in spacing, alignment, and visual balance
 - Cohesive design system with consistent patterns
 - Modern, elegant interface inspired by high-end web applications like unseen.co
-- Natural, human-centered design language
+- Natural, human-centered design language with organic transitions and thoughtful interactions
+- Unique visual personality that feels intentionally designed rather than template-based

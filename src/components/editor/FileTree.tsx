@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { File, Folder, Plus, Trash2, FolderOpen } from 'lucide-react';
+import { File, Folder, Plus, Trash2, FolderOpen, Edit2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
@@ -26,6 +26,8 @@ interface FileTreeProps {
   onCreateProject: () => void;
   onDeleteFile: (fileId: string) => void;
   onDeleteProject: (projectId: string) => void;
+  onRenameFile: (fileId: string, currentName: string) => void;
+  onRenameProject: (projectId: string, currentName: string) => void;
 }
 
 export function FileTree({
@@ -39,6 +41,8 @@ export function FileTree({
   onCreateProject,
   onDeleteFile,
   onDeleteProject,
+  onRenameFile,
+  onRenameProject,
 }: FileTreeProps) {
   const [expandedProjects, setExpandedProjects] = useState<Set<string>>(
     new Set(selectedProjectId ? [selectedProjectId] : [])
@@ -76,7 +80,7 @@ export function FileTree({
   return (
     <>
       <div className="flex h-full flex-col bg-sidebar-background">
-        <div className="flex items-center justify-between px-4 py-3">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-sidebar-border">
           <h2 className="text-sm font-semibold text-primary uppercase tracking-wide flex items-center gap-2">
             <Folder className="h-4 w-4" />
             FILES
@@ -85,7 +89,7 @@ export function FileTree({
             size="sm"
             variant="ghost"
             onClick={onCreateProject}
-            className="h-8 w-8 p-0 rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
+            className="h-8 w-8 p-0 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 shadow-organic hover:shadow-organic-lg transition-smooth hover:scale-110"
           >
             <Plus className="h-4 w-4" />
           </Button>
@@ -103,10 +107,10 @@ export function FileTree({
                     <div
                       key={file.id}
                       className={cn(
-                        'group flex items-center justify-between rounded-xl px-3 py-2.5 text-sm cursor-pointer transition-all',
+                        'group flex items-center justify-between rounded-xl px-3 py-2.5 text-sm cursor-pointer transition-smooth',
                         selectedFileId === file.id 
-                          ? 'bg-sidebar-accent text-sidebar-accent-foreground' 
-                          : 'hover:bg-sidebar-accent/50 text-sidebar-foreground'
+                          ? 'bg-sidebar-accent text-sidebar-accent-foreground shadow-organic' 
+                          : 'hover:bg-sidebar-accent/50 text-sidebar-foreground hover:shadow-organic'
                       )}
                       onClick={() => {
                         onSelectFile(file);
@@ -117,27 +121,40 @@ export function FileTree({
                       }}
                     >
                       <div className="flex items-center gap-3 flex-1 min-w-0">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 shrink-0">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 shrink-0 transition-smooth group-hover:bg-primary/20">
                           <File className="h-4 w-4 text-primary" />
                         </div>
                         <span className="truncate font-medium">{file.name}</span>
                       </div>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setDeleteDialog({
-                            open: true,
-                            type: 'file',
-                            id: file.id,
-                            name: file.name,
-                          });
-                        }}
-                        className="h-7 w-7 p-0 opacity-0 group-hover:opacity-100 hover:bg-destructive hover:text-destructive-foreground shrink-0"
-                      >
-                        <Trash2 className="h-3.5 w-3.5" />
-                      </Button>
+                      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-smooth">
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onRenameFile(file.id, file.name);
+                          }}
+                          className="h-7 w-7 p-0 hover:bg-accent hover:text-accent-foreground shrink-0"
+                        >
+                          <Edit2 className="h-3.5 w-3.5" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setDeleteDialog({
+                              open: true,
+                              type: 'file',
+                              id: file.id,
+                              name: file.name,
+                            });
+                          }}
+                          className="h-7 w-7 p-0 hover:bg-destructive hover:text-destructive-foreground shrink-0"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </Button>
+                      </div>
                     </div>
                   ))}
                 </div>

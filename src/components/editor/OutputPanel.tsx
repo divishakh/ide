@@ -23,10 +23,10 @@ export function OutputPanel({ outputs }: OutputPanelProps) {
   };
 
   return (
-    <div className="flex h-full flex-col bg-console-background text-console-foreground">
+    <div className="flex h-full flex-col bg-console-background text-console-foreground shadow-organic">
       <div className="flex items-center gap-2 border-b border-white/10 px-4 py-2.5">
         <Terminal className="h-4 w-4" />
-        <h3 className="text-sm font-semibold">Console</h3>
+        <h3 className="text-sm font-semibold">Console Output</h3>
       </div>
 
       <ScrollArea className="flex-1">
@@ -43,7 +43,7 @@ export function OutputPanel({ outputs }: OutputPanelProps) {
               {outputs.map((output, index) => (
                 <div
                   key={`${output.timestamp}-${index}`}
-                  className="flex items-start gap-2"
+                  className="flex items-start gap-2 transition-smooth hover:bg-white/5 px-2 py-1 rounded organic-border"
                 >
                   <span className="text-gray-500 select-none">&gt;</span>
                   <pre className={cn('whitespace-pre-wrap break-words flex-1', getOutputColor(output.type))}>
