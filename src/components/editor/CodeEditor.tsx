@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react';
 import Editor from '@monaco-editor/react';
 import { useTheme } from '@/hooks/useTheme';
 import { Loader2 } from 'lucide-react';
-import { registerAllAICompletionProviders } from '@/services/monacoAIProvider';
 
 interface CodeEditorProps {
   value: string;
@@ -14,25 +13,10 @@ interface CodeEditorProps {
 export function CodeEditor({ value, onChange, language = 'javascript', readOnly = false }: CodeEditorProps) {
   const { theme } = useTheme();
   const editorRef = useRef<any>(null);
-  const aiProvidersRef = useRef<any[]>([]);
 
   const handleEditorDidMount = (editor: any, monaco: any) => {
     editorRef.current = editor;
     editor.focus();
-
-    // Register AI completion providers for all languages
-    try {
-      aiProvidersRef.current = registerAllAICompletionProviders(monaco);
-      console.log('[AI] AI completion providers registered successfully');
-    } catch (error) {
-      console.error('[AI] Failed to register AI completion providers:', error);
-    }
-
-    // Add keyboard shortcut for manual AI completion trigger
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Space, () => {
-      console.log('[AI] Manual completion trigger (Ctrl+Space)');
-      editor.trigger('keyboard', 'editor.action.triggerSuggest', {});
-    });
 
     // Configure TypeScript/JavaScript language features for better IntelliSense
     if (language === 'javascript' || language === 'typescript') {
@@ -59,17 +43,11 @@ export function CodeEditor({ value, onChange, language = 'javascript', readOnly 
     }
   };
 
-  // Cleanup AI providers on unmount
+  // Cleanup on unmount
   useEffect(() => {
     return () => {
-      if (aiProvidersRef.current.length > 0) {
-        aiProvidersRef.current.forEach(disposable => {
-          try {
-            disposable?.dispose();
-          } catch (error) {
-            console.error('Error disposing AI provider:', error);
-          }
-        });
+      if (editorRef.current) {
+        editorRef.current.dispose?.();
       }
     };
   }, []);

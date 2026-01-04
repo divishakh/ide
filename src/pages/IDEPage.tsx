@@ -10,7 +10,6 @@ import { VersionHistory } from '@/components/editor/VersionHistory';
 import { ShareDialog } from '@/components/editor/ShareDialog';
 import { ShareProjectDialog } from '@/components/editor/ShareProjectDialog';
 import { ProjectSelector } from '@/components/editor/ProjectSelector';
-import { AISettingsDialog } from '@/components/editor/AISettingsDialog';
 import { projectsApi, filesApi, versionsApi } from '@/services/database';
 import { executeCode, getMonacoLanguage } from '@/services/codeExecution';
 import type { Project, CodeFile, ConsoleOutput } from '@/types';
@@ -57,7 +56,6 @@ export default function IDEPage() {
   }>({ open: false, type: 'project', id: '', currentName: '' });
   const [renameName, setRenameName] = useState('');
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
-  const [aiSettingsOpen, setAiSettingsOpen] = useState(false);
   const [userInput, setUserInput] = useState('');
   const [inputHistory, setInputHistory] = useState<string[]>([]);
 
@@ -651,7 +649,6 @@ export default function IDEPage() {
             onNewFile={handleNewFile}
             onDownload={handleDownloadProject}
             onShare={selectedProject ? () => setShareDialogOpen(true) : undefined}
-            onAISettings={() => setAiSettingsOpen(true)}
             isRunning={isRunning}
             isSaving={isSaving}
             currentFileName={selectedFile?.name}
@@ -863,12 +860,6 @@ export default function IDEPage() {
           onOpenChange={setShareDialogOpen}
         />
       )}
-
-      {/* AI Settings Dialog */}
-      <AISettingsDialog
-        open={aiSettingsOpen}
-        onOpenChange={setAiSettingsOpen}
-      />
     </div>
   );
 }
