@@ -6,7 +6,8 @@ Athena's Code Chambers\n
 A browser-based online code editing and execution environment that provides users with a streamlined platform for writing, testing, and learning code. Inspired by Athena, the goddess of wisdom, it aims to help users clearly construct and refine their code logic with an elegant and intuitive interface.
 
 ## 3. Core Features
-\n### 3.1 Landing Page
+
+### 3.1 Landing Page
 - A welcoming home page that introduces the platform\n- Use the provided image (image.png) as the hero visual on the home page to create an aesthetic, immersive experience
 - Adjust the color tones of image.png dynamically to match light mode and dark mode themes
 - Display the provided logo (image-2.png) prominently in the header or branding area
@@ -16,13 +17,14 @@ A browser-based online code editing and execution environment that provides user
 ### 3.2 User Authentication
 - **Mandatory Sign Up/Log In before starting work**: Users must authenticate before accessing the editor
 - Sign Up functionality for new users to create accounts
-- Log In functionality for existing users\n- Secure authentication flow\n- Session management to maintain user state
-\n### 3.3 Code Editor
+- Log In functionality for existing users\n- Secure authentication flow\n- Session management to maintain user state\n\n### 3.3 Code Editor
 - Support for code input, editing, and advanced syntax highlighting
 - Implemented using Monaco Editor for VS Code-like experience
-- Real-time code auto-completion suggestions while typing
+- **AI-Powered Code Suggestions**: Integrate AI tools (such as ChatGPT API or similar) to provide intelligent code completion and suggestions
+- **Real-time AI assistance**: As users type, the AI analyzes context and offers relevant code snippets, function suggestions, and best practices
+- **Smart auto-completion**: AI-enhanced suggestions that go beyond basic syntax completion to include logic patterns and common implementations
 - IntelliSense-style code hints and parameter information
-- Snippet suggestions based on language context
+- Snippet suggestions based on language context and AI analysis
 \n### 3.4 Input and Output Handling
 - **Separate dedicated input section**: When code execution requires user input (e.g., Python's input() or m=input()), a distinct input column/area appears
 - **Interactive input area**: Automatically displays when code requests input during execution
@@ -32,8 +34,7 @@ A browser-based online code editing and execution environment that provides user
 - **Real-time output display**: Show output as code executes, separate from input interactions
 - **Input persistence**: Input values remain visible during execution for reference
 
-### 3.5 Code Execution
-- Users can run code and view output results in dedicated output section
+### 3.5 Code Execution\n- Users can run code and view output results in dedicated output section
 - Default support for JavaScript (runs directly in the browser)
 - Real-time output display separated from input area
 - Automatic detection of input requirements and display of input section when needed
@@ -62,8 +63,7 @@ A browser-based online code editing and execution environment that provides user
 - Format code button
 - Clear Output button
 \n## 4. Extended Features
-
-### 4.1 Multiple Language Support
+\n### 4.1 Multiple Language Support
 - Add languages like Python or C++ using a backend runner or an execution API
 - Language-specific auto-completion and syntax validation
 - Proper input handling for languages that require user input (Python input(), C++ cin, etc.)
@@ -76,9 +76,7 @@ A browser-based online code editing and execution environment that provides user
 
 ### 4.4 Enhanced Theme Switching
 - Refined dark mode with carefully balanced contrast and colors
-- Light mode option\n- Custom theme support
-- Smooth theme transitions
-
+- Light mode option\n- Custom theme support\n- Smooth theme transitions\n
 ### 4.5 Shareable Snippet Links
 - **Generate unique URLs** so users can easily share their code with others
 - **Share button prominently displayed** in the toolbar or file menu
@@ -92,7 +90,8 @@ A browser-based online code editing and execution environment that provides user
 
 ### 4.6 Real-Time Collaboration
 - Allow multiple users to edit the same file simultaneously
-- Requires authentication and WebSockets/CRDT libraries (such as Yjs)\n\n### 4.7 Application Deployment
+- Requires authentication and WebSockets/CRDT libraries (such as Yjs)
+\n### 4.7 Application Deployment
 - Deploy the IDE so it is accessible through a public URL
 \n## 5. Design Style
 
@@ -103,13 +102,13 @@ A browser-based online code editing and execution environment that provides user
 
 ### 5.2 Typography
 - Modern, professional font family with excellent code readability
-- Distinct font choices for UI elements vs. code editor\n- Consistent font weights and sizes across the interface
+- Distinct font choices for UI elements vs. code editor
+- Consistent font weights and sizes across the interface
 - Optimized line-height and letter-spacing for extended coding sessions
 
 ### 5.3 Color Scheme
 \n#### Light Mode Palette
-- Primary colors: #FCF8F8, #FBEFEF, #F9DFDF, #F5AFAF
-- Soft, warm tones with gentle contrast for comfortable daytime use
+- Primary colors: #FCF8F8, #FBEFEF, #F9DFDF, #F5AFAF\n- Soft, warm tones with gentle contrast for comfortable daytime use
 - Use lighter shades for backgrounds and progressively darker shades for interactive elements
 - Maintain readability with sufficient contrast for text and code
 - Adjust the color tones of image.png to harmonize with the light mode palette
@@ -141,7 +140,9 @@ A browser-based online code editing and execution environment that provides user
 - **Interactive input area** that slides in or expands when code requests input
 - **Real-time file list updates** with smooth animations when new files are added
 - **Share button with modal dialog** for link generation and mode selection
-\n### 5.6 Overall Aesthetic
+- **AI suggestion indicators**: Visual cues when AI-powered suggestions are available
+
+### 5.6 Overall Aesthetic
 - Premium, handcrafted appearance that avoids AI-generated look
 - Attention to detail in spacing, alignment, and visual balance
 - Cohesive design system with consistent patterns\n- Modern, elegant interface inspired by high-end web applications like unseen.co
@@ -153,10 +154,12 @@ A browser-based online code editing and execution environment that provides user
 
 ### 6.1 Frontend
 - **Framework**: React.js (v18+) with TypeScript for type safety and component-based architecture
-- **Code Editor**: Monaco Editor (the same editor that powers VS Code)\n- **State Management**: Redux Toolkit or Zustand for global state management\n- **Styling**: Tailwind CSS for utility-first styling with custom theme configuration
+- **Code Editor**: Monaco Editor (the same editor that powers VS Code)
+- **State Management**: Redux Toolkit or Zustand for global state management\n- **Styling**: Tailwind CSS for utility-first styling with custom theme configuration
 - **Routing**: React Router (v6+) for navigation between landing page and editor
 - **UI Components**: Radix UI or Headless UI for accessible, unstyled component primitives
 - **Animations**: Framer Motion for smooth transitions and micro-interactions
+- **AI Integration**: OpenAI API (ChatGPT) or similar AI service for intelligent code suggestions
 
 ### 6.2 Backend
 - **Runtime**: Node.js (v18+ LTS)\n- **Framework**: Express.js or Fastify for RESTful API endpoints
@@ -165,7 +168,9 @@ A browser-based online code editing and execution environment that provides user
 - **ORM**: Prisma or TypeORM for database operations
 - **Code Execution**: Docker containers or isolated sandboxes for secure multi-language code execution
 - **File Storage**: AWS S3 or local file system for storing project files
-\n### 6.3 Real-Time Features
+- **AI Service Integration**: Backend proxy for AI API calls to handle authentication and rate limiting
+
+### 6.3 Real-Time Features
 - **WebSockets**: Socket.io for real-time collaboration and live updates
 - **CRDT Library**: Yjs for conflict-free replicated data types in collaborative editing
 \n### 6.4 Sharing & Collaboration
@@ -174,13 +179,12 @@ A browser-based online code editing and execution environment that provides user
 - **Link Storage**: Store link metadata (code snapshot, permissions, expiration) in database
 \n### 6.5 Deployment
 - **Frontend Hosting**: Vercel, Netlify, or AWS Amplify for static site deployment
-- **Backend Hosting**: AWS EC2,DigitalOcean, or Railway for Node.js server\n- **Database Hosting**: AWS RDS, Supabase, or managed PostgreSQL service
+- **Backend Hosting**: AWS EC2, DigitalOcean, or Railway for Node.js server\n- **Database Hosting**: AWS RDS, Supabase, or managed PostgreSQL service
 - **CDN**: Cloudflare or AWS CloudFront for asset delivery
 - **Domain & SSL**: Custom domain with Let's Encrypt SSL certificate
 
 ### 6.6 Development Tools
-- **Package Manager**: npm or pnpm\n- **Build Tool**: Vite for fast development and optimized production builds
-- **Linting**: ESLint with TypeScript support
+- **Package Manager**: npm or pnpm\n- **Build Tool**: Vite for fast development and optimized production builds\n- **Linting**: ESLint with TypeScript support
 - **Formatting**: Prettier for consistent code style
 - **Version Control**: Git with GitHub/GitLab for source code management
 
@@ -190,12 +194,13 @@ A browser-based online code editing and execution environment that provides user
 Before you begin, ensure you have the following installed:
 - Node.js (v18 or higher)
 - npm or pnpm package manager
-- PostgreSQL (v14 or higher)
-- Git
+- PostgreSQL (v14 or higher)\n- Git
 - Docker (optional, for code execution sandboxing)
+- OpenAI API key or alternative AI service credentials
 
 ### 7.2 Project Setup
-\n#### Step 1: Clone the Repository
+
+#### Step 1: Clone the Repository
 ```bash
 git clone <repository-url>
 cd athenas-code-chambers
@@ -220,13 +225,14 @@ VITE_WS_URL=ws://localhost:3001
 
 **Backend `.env`:**
 ```
-DATABASE_URL=postgresql://username:password@localhost:5432/athena_code\nJWT_SECRET=your-secret-key-here
+DATABASE_URL=postgresql://username:password@localhost:5432/athena_code
+JWT_SECRET=your-secret-key-here
 PORT=3001
 NODE_ENV=development
+OPENAI_API_KEY=your-openai-api-key-here
 ```
 
-#### Step 4: Database Setup
-```bash
+#### Step 4: Database Setup\n```bash
 cd backend
 \n# Run database migrations
 npx prisma migrate dev
@@ -235,7 +241,8 @@ npx prisma generate
 ```
 
 ### 7.3 Running the Application
-\n#### Development Mode
+
+#### Development Mode
 Open two terminal windows:
 \n**Terminal 1 - Backend:**
 ```bash
@@ -261,21 +268,23 @@ This creates an optimized production build in the `dist` folder.
 #### Backend Build
 ```bash
 cd backend
-npm run build\n```
+npm run build
+```
 
 ### 7.5 Deployment Instructions
 
 #### Frontend Deployment (Vercel)
 1. Push your code to GitHub
 2. Connect your repository to Vercel
-3. Configure build settings:\n   - Build Command: `npm run build`
+3. Configure build settings:
+   - Build Command: `npm run build`
    - Output Directory: `dist`
 4. Add environment variables in Vercel dashboard
 5. Deploy\n
 #### Backend Deployment (Railway/DigitalOcean)
 1. Create a new project on your hosting platform
 2. Connect your GitHub repository
-3. Configure environment variables
+3. Configure environment variables (including OPENAI_API_KEY)
 4. Set start command: `npm start`
 5. Deploy
 
@@ -293,7 +302,27 @@ const editor = monaco.editor.create(document.getElementById('editor'), {
   language: 'javascript',
   theme: 'vs-dark'\n});
 ```
-\n#### Shareable Links Implementation
+\n#### AI-Powered Code Suggestions Integration
+```javascript
+// Frontend: Send code context to backend
+const getAISuggestions = async (code, cursorPosition, language) => {
+  const response = await fetch('/api/ai/suggestions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ code, cursorPosition, language })
+  });
+  return response.json();
+};
+\n// Backend: Call OpenAI API\nconst openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });\n
+const completion = await openai.chat.completions.create({
+  model: 'gpt-4',
+  messages: [\n    { role: 'system', content: 'You are a code completion assistant.' },
+    { role: 'user', content: `Complete this ${language} code: ${code}` }
+  ]
+});
+```
+
+#### Shareable Links Implementation
 1. Generate unique link ID when user clicks share button
 2. Store code snapshot and permissions in database
 3. Create shareable URL: `https://yourdomain.com/share/{linkId}`
@@ -316,11 +345,18 @@ const editor = monaco.editor.create(document.getElementById('editor'), {
 - Ensure backend WebSocket server is running
 - Check firewall settings
 
+**AI suggestions not working:**
+- Verify OPENAI_API_KEY is correctly set in backend environment
+- Check API rate limits and quota
+- Review backend logs for API errors
+
 ### 7.8 Additional Resources
 - Monaco Editor Documentation: https://microsoft.github.io/monaco-editor/
 - React Documentation: https://react.dev/
 - Prisma Documentation: https://www.prisma.io/docs\n- Socket.io Documentation: https://socket.io/docs/
-\n### 7.9 Project Structure
+- OpenAI API Documentation: https://platform.openai.com/docs/
+
+### 7.9 Project Structure
 ```
 athenas-code-chambers/\n├── frontend/
 │   ├── src/
@@ -328,6 +364,8 @@ athenas-code-chambers/\n├── frontend/
 │   │   ├── pages/
 │   │   ├── hooks/
 │   │   ├── utils/
+│   │   ├── services/
+│   │   │   └── aiService.ts
 │   │   └── App.tsx
 │   ├── public/
 │   └── package.json
@@ -335,7 +373,7 @@ athenas-code-chambers/\n├── frontend/
 │   ├── src/
 │   │   ├── routes/
 │   │   ├── controllers/
-│   │   ├── middleware/
+│   │   │   └── aiController.ts\n│   │   ├── middleware/
 │   │   ├── models/
 │   │   └── server.ts
 │   ├── prisma/

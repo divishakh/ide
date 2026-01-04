@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Play, RotateCcw, FileText, Sparkles, Download, Share2 } from 'lucide-react';
+import { Play, RotateCcw, FileText, Sparkles, Download, Share2, Bot } from 'lucide-react';
 
 interface ToolbarProps {
   onRun: () => void;
@@ -9,6 +9,7 @@ interface ToolbarProps {
   onNewFile?: () => void;
   onDownload?: () => void;
   onShare?: () => void;
+  onAISettings?: () => void;
   isRunning?: boolean;
   isSaving?: boolean;
   currentFileName?: string;
@@ -21,6 +22,7 @@ export function Toolbar({
   onNewFile,
   onDownload,
   onShare,
+  onAISettings,
   isRunning = false,
 }: ToolbarProps) {
   return (
@@ -88,6 +90,19 @@ export function Toolbar({
         >
           <Share2 className="mr-2 h-4 w-4" />
           Share Project
+        </Button>
+      )}
+
+      {onAISettings && (
+        <Button 
+          size="default" 
+          variant="outline" 
+          onClick={onAISettings}
+          className="rounded-lg font-medium transition-smooth hover:shadow-organic"
+          title="Configure AI Code Suggestions"
+        >
+          <Bot className="mr-2 h-4 w-4" />
+          AI Settings
         </Button>
       )}
 

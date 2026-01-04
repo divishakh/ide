@@ -15,6 +15,7 @@ A beautiful, browser-based online code editor and execution environment inspired
 - **Input/Output Panels** - Separate panels for stdin input and execution output
 
 ### Advanced Features
+- **AI Code Suggestions** - Intelligent code completions powered by OpenAI (optional)
 - **User Authentication** - Secure sign up and login system
 - **Project Sharing** - Generate shareable links with view-only or edit permissions
 - **Code Formatting** - Automatic code beautification
@@ -181,11 +182,15 @@ VITE_SUPABASE_ANON_KEY=your-anon-key-here
 # App Configuration
 VITE_APP_ID=athena-code-chambers
 VITE_API_ENV=production
+
+# OpenAI Configuration (Optional - for AI code suggestions)
+VITE_OPENAI_API_KEY=sk-your-openai-api-key-here
 ```
 
 **Important**: 
 - Replace `your-project-id` with your actual Supabase project ID
 - Replace `your-anon-key-here` with your actual anon key from Supabase
+- OpenAI API key is optional - see [AI Code Suggestions](#-ai-code-suggestions-optional) section
 - Never commit the `.env` file to version control (it's already in `.gitignore`)
 
 ### Step 5: Configure Authentication
@@ -231,6 +236,46 @@ You should see:
 5. You'll be automatically logged in
 
 **Note**: The first user to sign up becomes an admin automatically.
+
+## 🤖 AI Code Suggestions (Optional)
+
+Athena's Code Chambers includes AI-powered code suggestions that provide intelligent completions as you type, similar to GitHub Copilot.
+
+### Quick Setup
+
+1. **Get an OpenAI API Key**:
+   - Visit [OpenAI Platform](https://platform.openai.com/api-keys)
+   - Sign up or log in
+   - Create a new API key
+   - Copy the key (starts with `sk-`)
+
+2. **Configure in the App**:
+   - Click the **"AI Settings"** button in the toolbar
+   - Paste your OpenAI API key
+   - Click **"Save API Key"**
+
+3. **Start Coding**:
+   - AI suggestions will appear automatically as you type
+   - Look for "AI Suggestion" in the autocomplete menu
+   - Press Tab or Enter to accept
+
+### Features
+
+- ✨ Context-aware code completions
+- 🌍 Supports 15+ programming languages
+- ⚡ Real-time suggestions as you type
+- 🔒 API key stored locally (never sent to our servers)
+- 💰 Usage-based pricing (~$0.0002-0.0004 per suggestion)
+
+### Alternative Configuration
+
+You can also add the API key to your `.env` file:
+
+```env
+VITE_OPENAI_API_KEY=sk-your-openai-api-key-here
+```
+
+**For detailed documentation**, see [AI_CODE_SUGGESTIONS.md](./AI_CODE_SUGGESTIONS.md)
 
 ## 📖 Usage Guide
 
