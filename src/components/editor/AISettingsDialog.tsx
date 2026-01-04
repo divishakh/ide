@@ -16,12 +16,15 @@ export function AISettingsDialog({ open, onOpenChange }: AISettingsDialogProps) 
   const [apiKey, setApiKey] = useState('');
   const [showKey, setShowKey] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
+  const [isTesting, setIsTesting] = useState(false);
+  const [testResult, setTestResult] = useState<{ success: boolean; message: string } | null>(null);
 
   useEffect(() => {
     if (open) {
       const currentKey = aiCompletionService.getApiKey();
       setApiKey(currentKey || '');
       setIsSaved(aiCompletionService.isConfigured());
+      setTestResult(null);
     }
   }, [open]);
 
@@ -39,6 +42,57 @@ export function AISettingsDialog({ open, onOpenChange }: AISettingsDialogProps) 
     aiCompletionService.setApiKey('');
     setApiKey('');
     setIsSaved(false);
+    setTestResult(null);
+  };
+
+  const handleTest = async () => {
+    setIsTesting(true);
+    setTestResult(null);
+
+    try {
+      console.log('[AI Test] Testing API key...');
+      
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey.trim()}`,
+        },
+        body: JSON.stringify({
+          model: 'gpt-3.5-turbo',
+          messages: [
+            { role: 'user', content: 'Say "API key is working!"' }
+          ],
+          max_tokens: 10,
+        }),
+      });
+
+      console.log('[AI Test] Response status:', response.status);
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('[AI Test] Response data:', data);
+        setTestResult({
+          success: true,
+          message: 'API key is valid and working! ✅',
+        });
+      } else {
+        const error = await response.json();
+        console.error('[AI Test] Error:', error);
+        setTestResult({
+          success: false,
+          message: `API Error: ${error.error?.message || 'Invalid API key'}`,
+        });
+      }
+    } catch (error) {
+      console.error('[AI Test] Exception:', error);
+      setTestResult({
+        success: false,
+        message: `Network Error: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      });
+    } finally {
+      setIsTesting(false);
+    }
   };
 
   return (
@@ -115,9 +169,27 @@ export function AISettingsDialog({ open, onOpenChange }: AISettingsDialogProps) 
               </AlertDescription>
             </Alert>
           )}
+
+          {testResult && (
+            <Alert className={testResult.success ? 'bg-success/10 border-success' : 'bg-destructive/10 border-destructive'}>
+              <Sparkles className={`h-4 w-4 ${testResult.success ? 'text-success' : 'text-destructive'}`} />
+              <AlertDescription className={testResult.success ? 'text-success-foreground' : 'text-destructive-foreground'}>
+                {testResult.message}
+              </AlertDescription>
+            </Alert>
+          )}
         </div>
 
         <DialogFooter className="gap-2">
+          {apiKey.trim() && (
+            <Button 
+              variant="secondary" 
+              onClick={handleTest}
+              disabled={isTesting}
+            >
+              {isTesting ? 'Testing...' : 'Test API Key'}
+            </Button>
+          )}
           {aiCompletionService.isConfigured() && (
             <Button variant="outline" onClick={handleRemove}>
               Remove Key

@@ -23,10 +23,16 @@ export function CodeEditor({ value, onChange, language = 'javascript', readOnly 
     // Register AI completion providers for all languages
     try {
       aiProvidersRef.current = registerAllAICompletionProviders(monaco);
-      console.log('AI completion providers registered');
+      console.log('[AI] AI completion providers registered successfully');
     } catch (error) {
-      console.error('Failed to register AI completion providers:', error);
+      console.error('[AI] Failed to register AI completion providers:', error);
     }
+
+    // Add keyboard shortcut for manual AI completion trigger
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Space, () => {
+      console.log('[AI] Manual completion trigger (Ctrl+Space)');
+      editor.trigger('keyboard', 'editor.action.triggerSuggest', {});
+    });
 
     // Configure TypeScript/JavaScript language features for better IntelliSense
     if (language === 'javascript' || language === 'typescript') {

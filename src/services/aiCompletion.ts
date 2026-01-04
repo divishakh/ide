@@ -67,28 +67,38 @@ class AICompletionService {
    */
   async getCompletions(request: CompletionRequest): Promise<CompletionSuggestion[]> {
     if (!this.isConfigured()) {
-      console.warn('OpenAI API key not configured. AI completions disabled.');
+      console.log('[AI] API key not configured. Skipping AI completions.');
       return [];
     }
+
+    console.log('[AI] Getting completions for:', {
+      language: request.language,
+      position: request.cursorPosition,
+      codeLength: request.code.length
+    });
 
     const cacheKey = this.getCacheKey(request);
 
     // Check cache first
     if (this.cache.has(cacheKey)) {
+      console.log('[AI] Using cached suggestions');
       return this.cache.get(cacheKey)!;
     }
 
     // Check if request is already in progress
     if (this.requestQueue.has(cacheKey)) {
+      console.log('[AI] Request already in progress, waiting...');
       return this.requestQueue.get(cacheKey)!;
     }
 
     // Create new request
+    console.log('[AI] Fetching new suggestions from OpenAI...');
     const requestPromise = this.fetchCompletions(request);
     this.requestQueue.set(cacheKey, requestPromise);
 
     try {
       const suggestions = await requestPromise;
+      console.log('[AI] Received suggestions:', suggestions.length);
       this.cache.set(cacheKey, suggestions);
       
       // Clean up old cache entries (keep last 50)
@@ -98,6 +108,9 @@ class AICompletionService {
       }
 
       return suggestions;
+    } catch (error) {
+      console.error('[AI] Error getting completions:', error);
+      return [];
     } finally {
       this.requestQueue.delete(cacheKey);
     }
@@ -116,6 +129,8 @@ class AICompletionService {
 
     // Build prompt for AI
     const prompt = this.buildPrompt(context, language, cursorPosition);
+
+    console.log('[AI] Sending request to OpenAI with context length:', context.length);
 
     try {
       const response = await fetch(this.apiEndpoint, {
@@ -143,16 +158,23 @@ class AICompletionService {
         }),
       });
 
+      console.log('[AI] OpenAI response status:', response.status);
+
       if (!response.ok) {
         const error = await response.json();
-        console.error('OpenAI API error:', error);
+        console.error('[AI] OpenAI API error:', error);
         return [];
       }
 
       const data = await response.json();
-      return this.parseCompletions(data, language);
+      console.log('[AI] OpenAI response data:', data);
+      
+      const suggestions = this.parseCompletions(data, language);
+      console.log('[AI] Parsed suggestions:', suggestions);
+      
+      return suggestions;
     } catch (error) {
-      console.error('Error fetching AI completions:', error);
+      console.error('[AI] Error fetching AI completions:', error);
       return [];
     }
   }
