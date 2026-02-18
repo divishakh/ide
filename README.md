@@ -1,7 +1,3 @@
-# Welcome to Your Miaoda Project
-Miaoda Application Link URL
-    URL:https://medo.dev/projects/app-8baywyxqb8xt
-
 # Athena's Code Chambers 🦉
 
 A beautiful, browser-based online code editor and execution environment inspired by the wisdom of Athena. Write, test, and share code with an elegant interface featuring deep blue and gold aesthetics.
